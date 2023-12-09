@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:workout_journal_v2/data/global_data.dart';
 import 'package:workout_journal_v2/theme/colors.dart';
 import 'package:workout_journal_v2/theme/text_styles.dart';
@@ -39,24 +38,17 @@ class DashboardNav extends StatelessWidget {
         ],
       ),
       actions: [
-        InkWell(
-          onTap: () async {
-            final prefs = await SharedPreferences.getInstance();
-
-            prefs.setString('name', '');
-          },
-          child: Container(
-            height: 50,
-            width: 50,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50),
-              color: AppColors.redAccent,
-            ),
-            child: const Icon(
-              Icons.person,
-              color: AppColors.secondary,
-              size: 25,
-            ),
+        Container(
+          height: 50,
+          width: 50,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(50),
+            color: AppColors.redAccent,
+          ),
+          child: const Icon(
+            Icons.person,
+            color: AppColors.secondary,
+            size: 25,
           ),
         ),
         const SizedBox(width: 16),
