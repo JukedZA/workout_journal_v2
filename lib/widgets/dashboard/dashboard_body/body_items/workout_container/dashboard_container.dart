@@ -7,6 +7,7 @@ import 'package:workout_journal_v2/providers/workout/workout_filter_provider.dar
 import 'package:workout_journal_v2/providers/workout/workout_provider.dart';
 import 'package:workout_journal_v2/theme/colors.dart';
 import 'package:workout_journal_v2/theme/text_styles.dart';
+import 'package:workout_journal_v2/widgets/custom/no_items_found.dart';
 import 'package:workout_journal_v2/widgets/dashboard/dashboard_body/body_items/workout_container/workout_item.dart';
 
 class DashboardContainer extends ConsumerWidget {
@@ -30,32 +31,10 @@ class DashboardContainer extends ConsumerWidget {
     }
 
     if (filteredWorkouts.isEmpty) {
-      return Expanded(
-        child: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(100),
-                  color: AppColors.redAccent.withOpacity(0.2),
-                ),
-                child: const Icon(
-                  Icons.zoom_out_rounded,
-                  size: 50,
-                  color: AppColors.redAccent,
-                ),
-              ),
-              const SizedBox(height: 25),
-              const TextHeebo(
-                text: 'No Workouts Found',
-                size: 18,
-                weight: Weights.medium,
-                color: AppColors.secondaryText,
-              ),
-            ],
-          ),
+      return const Expanded(
+        child: NoItemsFound(
+          title: 'No Workouts Found',
+          subtitle: 'Click the plus to create one',
         ),
       );
     } else {

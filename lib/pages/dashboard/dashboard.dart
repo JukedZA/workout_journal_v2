@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:workout_journal_v2/theme/colors.dart';
+import 'package:workout_journal_v2/widgets/custom/page_animator.dart';
 import 'package:workout_journal_v2/widgets/dashboard/dash_nav.dart';
 import 'package:workout_journal_v2/widgets/dashboard/dashboard_body/dashboard_body.dart';
 import 'package:workout_journal_v2/widgets/dashboard/drawer/drawer_items.dart';
@@ -26,7 +27,9 @@ class _DashboardState extends State<Dashboard> {
           ),
         ),
       ),
-      body: const DashboardBody(),
+      body: const PageContainer(
+        child: DashboardBody(),
+      ),
       drawer: const Drawer(
         backgroundColor: AppColors.primary,
         surfaceTintColor: Colors.transparent,
