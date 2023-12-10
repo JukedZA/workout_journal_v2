@@ -6,6 +6,7 @@ import 'package:workout_journal_v2/pages/dashboard/dashboard.dart';
 import 'package:workout_journal_v2/pages/dashboard/workout_details/create_exericse/create_exercise.dart';
 import 'package:workout_journal_v2/pages/dashboard/workout_details/workout_details.dart';
 import 'package:workout_journal_v2/pages/login/login_check.dart';
+import 'package:workout_journal_v2/pages/profile/profile.dart';
 import 'package:workout_journal_v2/widgets/navigation/go_router_nav.dart';
 
 class Routes {
@@ -18,6 +19,8 @@ class Routes {
   static const String workoutDetails = 'workout_details';
   static const String createWorkout = 'create_workout';
   static const String createExercise = 'create_exercise';
+
+  static const String profile = 'profile';
 }
 
 class NavigationRouter {
@@ -55,6 +58,14 @@ class NavigationRouter {
                   return buildFadeTransition(const Dashboard(), state.pageKey);
                 },
                 routes: [
+                  GoRoute(
+                    name: Routes.profile,
+                    path: Routes.profile,
+                    pageBuilder: (context, state) {
+                      return buildFadeTransition(
+                          const ProfilePage(), state.pageKey);
+                    },
+                  ),
                   GoRoute(
                       name: Routes.workoutDetails,
                       path: Routes.workoutDetails,

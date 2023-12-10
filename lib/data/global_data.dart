@@ -25,7 +25,27 @@ class Constants {
 
 class Methods {
   static String formatName(String name) {
-    return '${name[0].toUpperCase()}${name.substring(1)}';
+    if (name.isEmpty) {
+      return '';
+    }
+
+    List<String> names = name.split(' ');
+
+    // Handle cases where there might be extra spaces in the input
+    names = names.where((element) => element.isNotEmpty).toList();
+
+    List<String> tempList = [];
+
+    for (final name in names) {
+      if (name.length > 1) {
+        tempList
+            .add('${name[0].toUpperCase()}${name.substring(1).toLowerCase()}');
+      } else {
+        tempList.add(name.toUpperCase());
+      }
+    }
+
+    return tempList.join(' ');
   }
 
   static void showToastMessage(

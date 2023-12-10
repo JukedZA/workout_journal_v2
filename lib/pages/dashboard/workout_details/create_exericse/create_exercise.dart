@@ -68,6 +68,7 @@ class _CreateExerciseState extends ConsumerState<CreateExercise> {
             children: [
               MyFormField(
                 hintText: 'Exercise Name',
+                suffixIcon: null,
                 validator: (value) {
                   if (value != null && value.trim().isNotEmpty) {
                     return null;
@@ -85,6 +86,7 @@ class _CreateExerciseState extends ConsumerState<CreateExercise> {
               const SizedBox(height: 25),
               MyFormField(
                 hintText: 'Number of Sets',
+                suffixIcon: null,
                 isNumbers: true,
                 validator: (value) {
                   if (value != null &&

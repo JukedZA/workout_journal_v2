@@ -29,7 +29,7 @@ class ScaffoldWithNavBar extends StatelessWidget {
 
   Future<bool> _onBackPressed(BuildContext context) async {
     bool? exitApp = await showDialog(
-      barrierColor: AppColors.primary.withOpacity(0.8),
+      barrierColor: AppColors.secondary.withOpacity(0.7),
       context: context,
       builder: (context) => AlertDialog(
         surfaceTintColor: Colors.transparent,
@@ -42,8 +42,10 @@ class ScaffoldWithNavBar extends StatelessWidget {
           text: 'Are you sure?',
           size: 14,
         ),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-        // actionsAlignment: MainAxisAlignment.spaceEvenly,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        actionsAlignment: MainAxisAlignment.spaceEvenly,
         actionsPadding: const EdgeInsets.all(16),
         actions: [
           TextButton(

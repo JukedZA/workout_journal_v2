@@ -6,12 +6,14 @@ import 'package:workout_journal_v2/theme/colors.dart';
 class MyFormField extends StatelessWidget {
   final String hintText;
   final bool isNumbers;
+  final Widget? suffixIcon;
   final String? Function(String? value)? validator;
   final void Function(String? newValue) onSaved;
   const MyFormField({
     Key? key,
     required this.hintText,
     required this.isNumbers,
+    required this.suffixIcon,
     required this.validator,
     required this.onSaved,
   }) : super(key: key);
@@ -39,6 +41,7 @@ class MyFormField extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
         ),
         hintText: hintText,
+        suffixIcon: suffixIcon,
         contentPadding: const EdgeInsets.all(18),
         filled: true,
         fillColor: AppColors.secondary,

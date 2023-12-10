@@ -75,6 +75,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               child: MyFormField(
                 hintText: 'Display Name',
                 isNumbers: false,
+                suffixIcon: null,
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
                     return 'We need something to call you';

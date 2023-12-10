@@ -12,5 +12,5 @@ class AppColors {
   static const Color secondaryText = Color(0xFFdfdfdf);
 
   static const Color redAccent = Color(0xFFff4f4f);
-  static const Color greenAccent = Color(0xFF95ff6f);
+  static const Color greenAccent = Color(0xFF32a852);
 }
