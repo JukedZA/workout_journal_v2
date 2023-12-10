@@ -21,10 +21,15 @@ Future<void> main() async {
 
   Constants.workoutBox = Hive.box('all-workouts');
 
-  dynamic storedWorkouts =
-      Constants.workoutBox.get('workouts', defaultValue: <Workout>[]);
-  if (storedWorkouts is List<dynamic>) {
-    Constants.setList(storedWorkouts.cast<Workout>());
+  if (Constants.workoutBox.get('workouts') != null) {
+    List<dynamic> storedWorkouts = Constants.workoutBox.get('workouts');
+    if (storedWorkouts.isNotEmpty) {
+      Constants.setList(storedWorkouts.cast<Workout>());
+    } else {
+      Constants.setList(<Workout>[]);
+    }
+  } else {
+    Constants.setList(<Workout>[]);
   }
 
   SystemChrome.setPreferredOrientations([
