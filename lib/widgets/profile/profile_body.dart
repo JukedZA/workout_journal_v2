@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:workout_journal_v2/data/global_data.dart';
+import 'package:workout_journal_v2/models/workout/workout.dart';
 import 'package:workout_journal_v2/providers/profile/profile_name_provider.dart';
+import 'package:workout_journal_v2/providers/workout/workout_provider.dart';
 import 'package:workout_journal_v2/theme/colors.dart';
 import 'package:workout_journal_v2/theme/text_styles.dart';
 import 'package:workout_journal_v2/widgets/custom/my_form_field.dart';
@@ -40,9 +42,25 @@ class _ProfileBodyState extends ConsumerState<ProfileBody> {
     }
   }
 
+  int _weeklyWorkouts(List<Workout> workouts) {
+    if (workouts.isEmpty) return 0;
+
+    final DateTime now = DateTime.now();
+    final DateTime oneWeekAgo = now.subtract(const Duration(days: 7));
+
+    List<Workout> weeklyWorkouts = workouts
+        .where(
+          (w) => w.date.isAfter(oneWeekAgo),
+        )
+        .toList();
+
+    return weeklyWorkouts.length;
+  }
+
   @override
   Widget build(BuildContext context) {
     final String name = ref.watch(profileNameProvider);
+    final List<Workout> workouts = ref.watch(workoutsProvider);
 
     return Padding(
       padding: const EdgeInsets.all(25.0),
@@ -77,7 +95,54 @@ class _ProfileBodyState extends ConsumerState<ProfileBody> {
                 _newName = newValue;
               },
             ),
+            const SizedBox(height: 25),
+            Column(
+              children: [
+                buildProfileItem('Workout Info', Icons.info_outline_rounded),
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    buildStatContainer('Total', workouts.length),
+                    const SizedBox(width: 8),
+                    buildStatContainer(
+                        'Last 7 Days', _weeklyWorkouts(workouts)),
+                  ],
+                ),
+              ],
+            )
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildStatContainer(String title, int length) {
+    return Expanded(
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+        decoration: BoxDecoration(
+          color: AppColors.secondary,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextHeebo(
+                text: title,
+                size: 12,
+                color: AppColors.secondaryText,
+                weight: Weights.medium,
+              ),
+              const SizedBox(height: 8),
+              TextHeebo(
+                text: length.toString(),
+                size: 22,
+                color: AppColors.white,
+                weight: Weights.bold,
+              ),
+            ],
+          ),
         ),
       ),
     );
