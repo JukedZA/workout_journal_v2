@@ -22,12 +22,6 @@ class ExerciseItem extends ConsumerStatefulWidget {
 class _ExerciseItemState extends ConsumerState<ExerciseItem> {
   final _formKey = GlobalKey<FormState>();
 
-  void _saveSet() {
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
-    }
-  }
-
   void _createSet(SetModel setItem) {
     ref.read(currentWorkoutProvider.notifier).saveSet(
           setItem,

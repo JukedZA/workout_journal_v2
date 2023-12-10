@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:workout_journal_v2/models/workout/workout.dart';
+import 'package:workout_journal_v2/theme/colors.dart';
+import 'package:workout_journal_v2/theme/text_styles.dart';
 
 class Constants {
   // USER INFO
@@ -23,6 +26,38 @@ class Constants {
 class Methods {
   static String formatName(String name) {
     return '${name[0].toUpperCase()}${name.substring(1)}';
+  }
+
+  static void showToastMessage(
+      BuildContext context, Color color, IconData icon, String title) {
+    FToast fToast = FToast();
+    fToast.init(context);
+
+    Widget toast = Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        color: color,
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            icon,
+            size: 18,
+            color: AppColors.white,
+          ),
+          const SizedBox(width: 12),
+          TextHeeboMedium(text: title, size: 14),
+        ],
+      ),
+    );
+
+    fToast.showToast(
+      child: toast,
+      toastDuration: const Duration(seconds: 2),
+      gravity: ToastGravity.BOTTOM,
+    );
   }
 }
 

@@ -91,7 +91,7 @@ class _CreateExerciseState extends ConsumerState<CreateExercise> {
                       int.tryParse(value) != null &&
                       value.trim().isNotEmpty &&
                       int.tryParse(value)! > 0 &&
-                      int.tryParse(value)! < 20) {
+                      int.tryParse(value)! <= 20) {
                     return null;
                   } else {
                     return 'Enter a number between 1 and 20';

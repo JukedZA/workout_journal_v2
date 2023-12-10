@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:workout_journal_v2/data/global_data.dart';
 import 'package:workout_journal_v2/models/workout/workout.dart';
 import 'package:workout_journal_v2/providers/workout/workout_filter_provider.dart';
@@ -66,12 +67,56 @@ class DashboardContainer extends ConsumerWidget {
           ),
           child: ListView.builder(
             itemCount: filteredWorkouts.length,
-            itemBuilder: (context, index) => WorkoutItem(
-              workout: filteredWorkouts[index],
+            itemBuilder: (context, index) => Slidable(
+              key: ValueKey(workouts[index]),
+              endActionPane: ActionPane(
+                motion: const BehindMotion(),
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 16, left: 8),
+                      child: GestureDetector(
+                        onTap: () {
+                          ref
+                              .read(workoutsProvider.notifier)
+                              .removeWorkout(workouts[index]);
+                          showConfirmationMessage(context);
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: AppColors.redAccent,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: const Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.delete,
+                                size: 25,
+                                color: Colors.white,
+                              ),
+                              TextHeeboReg(text: 'Delete', size: 12),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              child: WorkoutItem(
+                workout: filteredWorkouts[index],
+              ),
             ),
           ),
         ),
       );
     }
+  }
+
+  void showConfirmationMessage(BuildContext context) {
+    Methods.showToastMessage(context, AppColors.redAccent, Icons.check_rounded,
+        'Workout Deleted Successfully');
   }
 }

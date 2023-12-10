@@ -59,10 +59,41 @@ class WorkoutsNotifier extends Notifier<List<Workout>> {
     state = list;
   }
 
+  void removeExercise(Workout workout, Exercise exercise) {
+    final List<Workout> tempList = List.from(state);
+
+    if (tempList.isEmpty) return;
+
+    // Find the index of the workout with a matching id
+    int index = tempList.indexWhere((w) => w.id == workout.id);
+
+    if (index != -1) {
+      // Create a copy of the workout with the exercise removed
+      final Workout updatedWorkout = Workout(
+        id: workout.id,
+        title: workout.title,
+        date: workout.date,
+        img: workout.img,
+        exercises: List.from(workout.exercises)..remove(exercise),
+      );
+
+      // Replace the old workout with the updated one
+      tempList[index] = updatedWorkout;
+
+      // Update the current workout
+      ref.read(currentWorkoutProvider.notifier).setWorkout(updatedWorkout);
+
+      // Update the box and state
+      Constants.workoutBox.put('workouts', tempList);
+      state = tempList;
+    }
+  }
+
   void addExercise(Workout workout, Exercise exercise) {
     final List<Workout> tempList =
         List.from(state); // Create a new list from the current state
 
+    // Create a copy of the workout with the new exercises
     final Workout newWorkout = Workout(
       id: workout.id,
       title: workout.title,
@@ -71,15 +102,36 @@ class WorkoutsNotifier extends Notifier<List<Workout>> {
       exercises: [...workout.exercises, exercise],
     );
 
+    // Find the index of the old workout
     int index = tempList.indexOf(workout);
 
+    // Replace the old workout at the index
     tempList[index] = newWorkout;
 
+    // Update the current workout
     ref.read(currentWorkoutProvider.notifier).setWorkout(newWorkout);
 
+    // Update the box and state
     Constants.workoutBox.put('workouts', tempList);
-
     state = tempList;
+  }
+
+  void removeWorkout(Workout workout) {
+    final List<Workout> tempList = List.from(state);
+
+    if (tempList.isEmpty) return;
+
+    // Find the index of the workout with a matching id
+    int index = tempList.indexWhere((w) => w.id == workout.id);
+
+    if (index != -1) {
+      // Remove the workout if found
+      tempList.removeAt(index);
+
+      // Update the box and state
+      Constants.workoutBox.put('workouts', tempList);
+      state = tempList;
+    }
   }
 }
 
