@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_journal_v2/data/global_data.dart';
 import 'package:workout_journal_v2/models/workout/exercise.dart';
 import 'package:workout_journal_v2/models/workout/set.dart';
+import 'package:workout_journal_v2/models/workout/workout.dart';
 import 'package:workout_journal_v2/providers/workout/workout_provider.dart';
 import 'package:workout_journal_v2/theme/colors.dart';
 import 'package:workout_journal_v2/theme/text_styles.dart';
@@ -23,12 +24,14 @@ class _ExerciseItemState extends ConsumerState<ExerciseItem> {
   final _formKey = GlobalKey<FormState>();
 
   void _createSet(SetModel setItem) {
+    final List<Workout> allWorkouts = ref.watch(workoutsProvider);
+
     ref.read(currentWorkoutProvider.notifier).saveSet(
           setItem,
           widget.exercise,
         );
 
-    Constants.workoutBox.put('workouts', Constants.workouts);
+    Constants.workoutBox.put('workouts', allWorkouts);
 
     setState(() {});
   }
