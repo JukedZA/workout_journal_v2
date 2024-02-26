@@ -10,9 +10,12 @@ class SetModel {
   final double? weight;
   @HiveField(2)
   final double? reps;
+  @HiveField(3)
+  final bool isWarmup;
   const SetModel({
     required this.id,
     required this.weight,
     required this.reps,
+    required this.isWarmup,
   });
 }

@@ -12,28 +12,24 @@ import 'package:workout_journal_v2/theme/colors.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  try {
-    await Hive.initFlutter();
-    Hive.registerAdapter(WorkoutAdapter());
-    Hive.registerAdapter(ExerciseAdapter());
-    Hive.registerAdapter(SetModelAdapter());
+  await Hive.initFlutter();
+  Hive.registerAdapter(WorkoutAdapter());
+  Hive.registerAdapter(ExerciseAdapter());
+  Hive.registerAdapter(SetModelAdapter());
 
-    await Hive.openBox('all-workouts');
+  await Hive.openBox('all-workouts');
 
-    Constants.workoutBox = Hive.box('all-workouts');
+  Constants.workoutBox = Hive.box('all-workouts');
 
-    if (Constants.workoutBox.get('workouts') != null) {
-      List<dynamic> storedWorkouts = Constants.workoutBox.get('workouts');
-      if (storedWorkouts.isNotEmpty) {
-        Constants.setList(storedWorkouts.cast<Workout>());
-      } else {
-        Constants.setList(<Workout>[]);
-      }
+  if (Constants.workoutBox.get('workouts') != null) {
+    List<dynamic> storedWorkouts = Constants.workoutBox.get('workouts');
+    if (storedWorkouts.isNotEmpty) {
+      Constants.setList(storedWorkouts.cast<Workout>());
     } else {
       Constants.setList(<Workout>[]);
     }
-  } catch (error) {
-    print("Hive error: $error");
+  } else {
+    Constants.setList(<Workout>[]);
   }
 
   SystemChrome.setPreferredOrientations([

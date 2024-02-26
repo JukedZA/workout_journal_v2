@@ -20,19 +20,22 @@ class SetModelAdapter extends TypeAdapter<SetModel> {
       id: fields[0] as String,
       weight: fields[1] as double?,
       reps: fields[2] as double?,
+      isWarmup: fields[3] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, SetModel obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
       ..write(obj.weight)
       ..writeByte(2)
-      ..write(obj.reps);
+      ..write(obj.reps)
+      ..writeByte(3)
+      ..write(obj.isWarmup);
   }
 
   @override

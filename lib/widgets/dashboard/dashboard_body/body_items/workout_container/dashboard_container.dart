@@ -16,18 +16,24 @@ class DashboardContainer extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     String filter = ref.watch(workoutFilterProvider);
-    List<Workout> workouts = ref.watch(workoutsProvider);
+    final List<Workout> allWorkouts = ref.watch(workoutsProvider);
     List<Workout> filteredWorkouts = [];
+    List<Workout> workouts = [];
 
-    if (workouts.isNotEmpty) {
-      filteredWorkouts = workouts
-          .where(
-            (workout) => workout.title
-                .trim()
-                .toLowerCase()
-                .contains(filter.trim().toLowerCase()),
-          )
-          .toList();
+    if (allWorkouts.isNotEmpty) {
+      workouts =
+          allWorkouts.where((workout) => workout.isTemplate == false).toList();
+
+      if (workouts.isNotEmpty) {
+        filteredWorkouts = workouts
+            .where(
+              (workout) => workout.title
+                  .trim()
+                  .toLowerCase()
+                  .contains(filter.trim().toLowerCase()),
+            )
+            .toList();
+      }
     }
 
     if (filteredWorkouts.isEmpty) {

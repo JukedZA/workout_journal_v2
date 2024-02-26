@@ -13,6 +13,9 @@ class Constants {
   static late Box workoutBox;
   static List<Workout> workouts = [];
 
+  // TEMPLATE STORAGE
+  static List<Workout> templates = [];
+
   // METHODS
   static void setList(List<Workout> list) {
     workouts = list;

@@ -32,8 +32,12 @@ class _SetItemState extends State<SetItem> {
 
     if (weight == null && reps == null) return;
 
-    final SetModel newSet =
-        SetModel(id: widget.setItem.id, weight: weight, reps: reps);
+    final SetModel newSet = SetModel(
+      id: widget.setItem.id,
+      weight: weight,
+      reps: reps,
+      isWarmup: widget.setItem.isWarmup,
+    );
 
     widget.saveSet(newSet);
   }
@@ -101,6 +105,21 @@ class _SetItemState extends State<SetItem> {
       ],
     );
 
-    return content;
+    if (widget.setItem.isWarmup) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          content,
+          const TextHeebo(
+            text: 'WARMUP',
+            size: 10,
+            color: AppColors.redAccent,
+            weight: Weights.reg,
+          ),
+        ],
+      );
+    } else {
+      return content;
+    }
   }
 }

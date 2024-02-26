@@ -16,12 +16,16 @@ class Workout {
   final String img;
   @HiveField(4)
   final List<Exercise> exercises;
+  @HiveField(5)
+  final bool isTemplate;
+
   const Workout({
     required this.id,
     required this.title,
     required this.date,
     required this.img,
     required this.exercises,
+    required this.isTemplate,
   });
 
   String get formattedDate {

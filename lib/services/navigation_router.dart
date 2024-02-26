@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:workout_journal_v2/models/workout/workout.dart';
 import 'package:workout_journal_v2/pages/dashboard/create_workout/create_workout.dart';
 import 'package:workout_journal_v2/pages/dashboard/dashboard.dart';
+import 'package:workout_journal_v2/pages/dashboard/templates/create_template.dart';
+import 'package:workout_journal_v2/pages/dashboard/templates/workout_templates.dart';
 import 'package:workout_journal_v2/pages/dashboard/workout_details/create_exericse/create_exercise.dart';
 import 'package:workout_journal_v2/pages/dashboard/workout_details/workout_details.dart';
 import 'package:workout_journal_v2/pages/login/login_check.dart';
@@ -19,6 +21,8 @@ class Routes {
   static const String workoutDetails = 'workout_details';
   static const String createWorkout = 'create_workout';
   static const String createExercise = 'create_exercise';
+  static const String createTemplate = 'create_template';
+  static const String workoutTemplates = 'workout_templates';
 
   static const String profile = 'profile';
 }
@@ -67,25 +71,25 @@ class NavigationRouter {
                     },
                   ),
                   GoRoute(
-                      name: Routes.workoutDetails,
-                      path: Routes.workoutDetails,
-                      pageBuilder: (context, state) {
-                        return buildSlideTransition(
-                            const WorkoutDetails(), state.pageKey);
-                      },
-                      routes: [
-                        GoRoute(
-                          name: Routes.createExercise,
-                          path: Routes.createExercise,
-                          pageBuilder: (context, state) {
-                            final Workout workout = state.extra as Workout;
+                    name: Routes.workoutDetails,
+                    path: Routes.workoutDetails,
+                    pageBuilder: (context, state) {
+                      return buildSlideTransition(
+                          const WorkoutDetails(), state.pageKey);
+                    },
+                    routes: [
+                      GoRoute(
+                        name: Routes.createExercise,
+                        path: Routes.createExercise,
+                        pageBuilder: (context, state) {
+                          final Workout workout = state.extra as Workout;
 
-                            return buildSlideTransition(
-                                CreateExercise(workout: workout),
-                                state.pageKey);
-                          },
-                        ),
-                      ]),
+                          return buildSlideTransition(
+                              CreateExercise(workout: workout), state.pageKey);
+                        },
+                      ),
+                    ],
+                  ),
                   GoRoute(
                     name: Routes.createWorkout,
                     path: Routes.createWorkout,
@@ -93,6 +97,24 @@ class NavigationRouter {
                       return buildSlideTransition(
                           const CreateWorkout(), state.pageKey);
                     },
+                  ),
+                  GoRoute(
+                    name: Routes.workoutTemplates,
+                    path: Routes.workoutTemplates,
+                    pageBuilder: (context, state) {
+                      return buildFadeTransition(
+                          const WorkoutTemplates(), state.pageKey);
+                    },
+                    routes: [
+                      GoRoute(
+                        name: Routes.createTemplate,
+                        path: Routes.createTemplate,
+                        pageBuilder: (context, state) {
+                          return buildSlideTransition(
+                              const CreateTemplate(), state.pageKey);
+                        },
+                      ),
+                    ],
                   ),
                 ],
               ),

@@ -75,6 +75,7 @@ class WorkoutsNotifier extends Notifier<List<Workout>> {
         date: workout.date,
         img: workout.img,
         exercises: List.from(workout.exercises)..remove(exercise),
+        isTemplate: workout.isTemplate,
       );
 
       // Replace the old workout with the updated one
@@ -90,7 +91,6 @@ class WorkoutsNotifier extends Notifier<List<Workout>> {
   }
 
   void addExercise(Workout workout, Exercise exercise) {
-    print(state);
     final List<Workout> tempList =
         List.from(state); // Create a new list from the current state
 
@@ -101,6 +101,7 @@ class WorkoutsNotifier extends Notifier<List<Workout>> {
       date: workout.date,
       img: workout.img,
       exercises: [...workout.exercises, exercise],
+      isTemplate: workout.isTemplate,
     );
 
     // Find the index of the old workout

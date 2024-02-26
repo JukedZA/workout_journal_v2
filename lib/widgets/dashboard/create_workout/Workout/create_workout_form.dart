@@ -3,11 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:uuid/uuid.dart';
+import 'package:workout_journal_v2/data/global_data.dart';
 import 'package:workout_journal_v2/models/workout/workout.dart';
 import 'package:workout_journal_v2/providers/workout/workout_provider.dart';
-import 'package:workout_journal_v2/theme/button_styles.dart';
+import 'package:workout_journal_v2/services/navigation_router.dart';
 import 'package:workout_journal_v2/theme/colors.dart';
 import 'package:workout_journal_v2/theme/text_styles.dart';
+import 'package:workout_journal_v2/widgets/custom/create_button.dart';
+import 'package:workout_journal_v2/widgets/custom/my_form_field.dart';
 import 'package:workout_journal_v2/widgets/dashboard/create_workout/create_workout_icon_button.dart';
 
 class CreateWorkoutForm extends ConsumerStatefulWidget {
@@ -42,6 +45,7 @@ class _CreateWorkoutFormState extends ConsumerState<CreateWorkoutForm> {
         img: _img,
         date: DateTime.now(),
         exercises: [],
+        isTemplate: false,
       );
 
       ref.read(workoutsProvider.notifier).addItem(workout);
@@ -87,6 +91,8 @@ class _CreateWorkoutFormState extends ConsumerState<CreateWorkoutForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          _buildTemplateSection(),
+          const SizedBox(height: 16),
           Text(
             'Click To Select Icon*',
             style: GoogleFonts.heebo(
@@ -133,8 +139,10 @@ class _CreateWorkoutFormState extends ConsumerState<CreateWorkoutForm> {
             ),
           ),
           const SizedBox(height: 25),
-          TextFormField(
-            cursorColor: AppColors.secondaryText,
+          MyFormField(
+            hintText: 'Workout Name',
+            isNumbers: false,
+            suffixIcon: null,
             validator: (value) {
               if (value != null && value.trim().isNotEmpty) {
                 return null;
@@ -142,24 +150,6 @@ class _CreateWorkoutFormState extends ConsumerState<CreateWorkoutForm> {
                 return 'Please enter a name';
               }
             },
-            style: GoogleFonts.heebo(
-              color: AppColors.primaryText,
-              fontSize: 15,
-            ),
-            decoration: InputDecoration(
-              hintStyle: GoogleFonts.heebo(
-                color: AppColors.secondaryText,
-                fontSize: 15,
-              ),
-              border: OutlineInputBorder(
-                borderSide: BorderSide.none,
-                borderRadius: BorderRadius.circular(4),
-              ),
-              hintText: 'Workout Name',
-              contentPadding: const EdgeInsets.all(18),
-              filled: true,
-              fillColor: AppColors.secondary,
-            ),
             onSaved: (newValue) {
               if (newValue != null && newValue.trim().isNotEmpty) {
                 _name = newValue;
@@ -167,23 +157,72 @@ class _CreateWorkoutFormState extends ConsumerState<CreateWorkoutForm> {
             },
           ),
           const SizedBox(height: 25),
-          Center(
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.6,
-              child: TextButton(
-                style: const RoundedButtonStyle(color: AppColors.redAccent)
-                    .buildButtonStyle(),
-                onPressed: () {
-                  _submitForm();
-                },
-                child: const TextHeeboMedium(
-                  text: 'Create',
-                  size: 18,
-                ),
-              ),
-            ),
+          CreateButton(
+            onPressed: () {
+              _submitForm();
+            },
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildTemplateSection() {
+    return InkWell(
+      splashColor: Colors.transparent,
+      splashFactory: NoSplash.splashFactory,
+      onTap: () {
+        context.goNamed(Routes.workoutTemplates);
+      },
+      child: Center(
+        child: Container(
+          width: double.infinity,
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: AppColors.secondary,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: AppColors.tertiary,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Icon(
+                      Icons.file_copy,
+                      color: AppColors.redAccent,
+                      size: 16,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  const TextHeebo(
+                    text: 'Your Templates',
+                    color: AppColors.primaryText,
+                    size: 16,
+                    weight: Weights.bold,
+                  ),
+                ],
+              ),
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: AppColors.tertiary,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: const Icon(
+                  Icons.chevron_right,
+                  color: AppColors.secondaryText,
+                  size: 16,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
