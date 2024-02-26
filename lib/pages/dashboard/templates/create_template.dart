@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:workout_journal_v2/theme/text_styles.dart';
-import 'package:workout_journal_v2/widgets/dashboard/create_workout/Templates/create_template_body.dart';
+import 'package:workout_journal_v2/widgets/dashboard/create_workout/Template/create_template_body.dart';
 
 class CreateTemplate extends StatelessWidget {
   const CreateTemplate({Key? key}) : super(key: key);

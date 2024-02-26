@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:workout_journal_v2/data/global_data.dart';
-import 'package:workout_journal_v2/models/workout/workout.dart';
 import 'package:workout_journal_v2/providers/workout/workout_provider.dart';
 import 'package:workout_journal_v2/services/navigation_router.dart';
 import 'package:workout_journal_v2/theme/button_styles.dart';
@@ -59,14 +58,37 @@ class DrawerItems extends ConsumerWidget {
         Column(
           children: [
             DrawerItem(
+              title: 'Clear Templates',
+              icon: Icons.insert_page_break_rounded,
+              trailingIcon: null,
+              onTap: () async {
+                bool clear =
+                    await confirmRemoval(context, 'Clear ALL Templates');
+
+                if (clear) {
+                  ref.read(workoutsProvider.notifier).clearTemplates();
+                  if (context.mounted) {
+                    context.pop();
+                  }
+                } else {
+                  if (context.mounted) {
+                    context.pop();
+                  }
+                }
+              },
+              backgroundColor: AppColors.redAccent,
+            ),
+            const SizedBox(height: 8),
+            DrawerItem(
               title: 'Clear Workouts',
               icon: Icons.delete_forever_rounded,
               trailingIcon: null,
               onTap: () async {
-                bool clear = await confirmRemoval(context);
+                bool clear =
+                    await confirmRemoval(context, 'Clear ALL Workouts');
 
                 if (clear) {
-                  ref.read(workoutsProvider.notifier).setList(<Workout>[]);
+                  ref.read(workoutsProvider.notifier).clearWorkouts();
                   if (context.mounted) {
                     context.pop();
                   }
@@ -85,15 +107,15 @@ class DrawerItems extends ConsumerWidget {
     );
   }
 
-  Future<bool> confirmRemoval(BuildContext context) async {
+  Future<bool> confirmRemoval(BuildContext context, String title) async {
     bool? clearItems = await showDialog(
       barrierColor: AppColors.secondary.withOpacity(0.7),
       context: context,
       builder: (context) => AlertDialog(
         surfaceTintColor: Colors.transparent,
         backgroundColor: AppColors.primary,
-        title: const TextHeeboMedium(
-          text: 'Clear ALL Workouts',
+        title: TextHeeboMedium(
+          text: title,
           size: 20,
         ),
         content: const TextHeeboReg(

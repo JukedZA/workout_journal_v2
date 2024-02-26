@@ -18,7 +18,7 @@ class SetFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 40,
+      height: 35,
       width: 50,
       child: TextFormField(
         controller: controller,

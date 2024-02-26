@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:workout_journal_v2/widgets/dashboard/create_workout/create_workout_form.dart';
+import 'package:workout_journal_v2/widgets/dashboard/create_workout/Workout/create_workout_form.dart';
 
 class CreateWorkoutBody extends StatelessWidget {
   const CreateWorkoutBody({Key? key}) : super(key: key);

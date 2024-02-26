@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:workout_journal_v2/theme/text_styles.dart';
-import 'package:workout_journal_v2/widgets/dashboard/create_workout/create_workout_body.dart';
+import 'package:workout_journal_v2/widgets/dashboard/create_workout/Workout/create_workout_body.dart';
 
 class CreateWorkout extends StatelessWidget {
   const CreateWorkout({Key? key}) : super(key: key);

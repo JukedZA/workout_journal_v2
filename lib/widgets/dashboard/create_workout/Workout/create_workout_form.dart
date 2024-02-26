@@ -11,7 +11,7 @@ import 'package:workout_journal_v2/theme/colors.dart';
 import 'package:workout_journal_v2/theme/text_styles.dart';
 import 'package:workout_journal_v2/widgets/custom/create_button.dart';
 import 'package:workout_journal_v2/widgets/custom/my_form_field.dart';
-import 'package:workout_journal_v2/widgets/dashboard/create_workout/create_workout_icon_button.dart';
+import 'package:workout_journal_v2/widgets/dashboard/create_workout/Workout/create_workout_icon_button.dart';
 
 class CreateWorkoutForm extends ConsumerStatefulWidget {
   const CreateWorkoutForm({Key? key}) : super(key: key);

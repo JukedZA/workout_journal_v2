@@ -25,12 +25,8 @@ class _SetItemState extends State<SetItem> {
   String _reps = '';
 
   void _saveSet() {
-    if (_weight.isEmpty && _reps.isEmpty) return;
-
     double? weight = double.tryParse(_weight);
     double? reps = double.tryParse(_reps);
-
-    if (weight == null && reps == null) return;
 
     final SetModel newSet = SetModel(
       id: widget.setItem.id,
@@ -91,14 +87,14 @@ class _SetItemState extends State<SetItem> {
         weightContent,
         const TextHeebo(
           text: 'reps of',
-          size: 14,
+          size: 12,
           color: AppColors.secondaryText,
           weight: Weights.reg,
         ),
         repsContent,
         const TextHeebo(
           text: 'kg',
-          size: 14,
+          size: 12,
           color: AppColors.secondaryText,
           weight: Weights.reg,
         ),

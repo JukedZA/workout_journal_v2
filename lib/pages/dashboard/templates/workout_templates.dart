@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:workout_journal_v2/services/navigation_router.dart';
 import 'package:workout_journal_v2/theme/text_styles.dart';
-import 'package:workout_journal_v2/widgets/dashboard/create_workout/Templates/template_body.dart';
+import 'package:workout_journal_v2/widgets/dashboard/create_workout/Template/template_body.dart';
 
 class WorkoutTemplates extends StatelessWidget {
   const WorkoutTemplates({Key? key}) : super(key: key);

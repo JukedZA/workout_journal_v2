@@ -53,12 +53,13 @@ class _ExerciseItemState extends ConsumerState<ExerciseItem> {
           children: [
             Container(
               width: double.infinity,
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
               color: AppColors.tertiary,
-              child: TextHeeboBold(text: widget.exercise.title, size: 18),
+              child: TextHeeboBold(text: widget.exercise.title, size: 16),
             ),
             Padding(
-              padding: const EdgeInsets.all(16),
+              padding:
+                  const EdgeInsets.only(top: 0, bottom: 16, left: 8, right: 8),
               child: SetList(
                 sets: widget.exercise.sets,
                 saveSet: _createSet,

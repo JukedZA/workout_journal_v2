@@ -45,6 +45,28 @@ class WorkoutsNotifier extends Notifier<List<Workout>> {
     return Constants.workouts;
   }
 
+  void clearWorkouts() {
+    if (state.isNotEmpty) {
+      final newList =
+          state.where((workout) => workout.isTemplate == true).toList();
+
+      Constants.workoutBox.put('workouts', newList);
+
+      state = newList;
+    }
+  }
+
+  void clearTemplates() {
+    if (state.isNotEmpty) {
+      final newList =
+          state.where((workout) => workout.isTemplate == false).toList();
+
+      Constants.workoutBox.put('workouts', newList);
+
+      state = newList;
+    }
+  }
+
   void setList(List<Workout> list) {
     Constants.workoutBox.put('workouts', list);
 
