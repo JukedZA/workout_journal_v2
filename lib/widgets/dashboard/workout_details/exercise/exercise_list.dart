@@ -23,7 +23,24 @@ class ExerciseList extends ConsumerWidget {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(25.0),
-        child: ListView.builder(
+        child: ReorderableListView.builder(
+          shrinkWrap: true,
+          buildDefaultDragHandles: true,
+          proxyDecorator: (child, index, animation) {
+            return child;
+          },
+          onReorder: (int oldIndex, int newIndex) {
+            if (oldIndex < newIndex) {
+              newIndex -= 1;
+            }
+
+            final Exercise movedItem = exercises.removeAt(oldIndex);
+            exercises.insert(newIndex, movedItem);
+
+            ref
+                .read(workoutsProvider.notifier)
+                .reorderExercises(workout, exercises);
+          },
           itemCount: exercises.length,
           itemBuilder: (context, index) => Slidable(
             key: ValueKey(exercises[index]),

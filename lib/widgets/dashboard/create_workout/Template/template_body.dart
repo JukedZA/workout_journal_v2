@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:go_router/go_router.dart';
 import 'package:uuid/uuid.dart';
 import 'package:workout_journal_v2/data/global_data.dart';
@@ -7,6 +8,7 @@ import 'package:workout_journal_v2/models/workout/workout.dart';
 import 'package:workout_journal_v2/providers/workout/workout_provider.dart';
 import 'package:workout_journal_v2/services/navigation_router.dart';
 import 'package:workout_journal_v2/theme/colors.dart';
+import 'package:workout_journal_v2/theme/text_styles.dart';
 import 'package:workout_journal_v2/widgets/custom/default_button.dart';
 import 'package:workout_journal_v2/widgets/custom/no_items_found.dart';
 import 'package:workout_journal_v2/widgets/dashboard/create_workout/Template/template_item.dart';
@@ -72,11 +74,49 @@ class _TemplateBodyState extends ConsumerState<TemplateBody> {
             child: ListView.builder(
               shrinkWrap: true,
               itemCount: templates.length,
-              itemBuilder: (context, index) => TemplateItem(
-                isSelected: bools[index],
-                onSelected: onSelected,
-                workout: templates[index],
-                index: index,
+              itemBuilder: (context, index) => Slidable(
+                key: ValueKey(templates[index]),
+                endActionPane: ActionPane(
+                  motion: const BehindMotion(),
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 8, left: 8),
+                        child: GestureDetector(
+                          onTap: () {
+                            ref
+                                .read(workoutsProvider.notifier)
+                                .removeWorkout(templates[index]);
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: AppColors.redAccent,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: const Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.delete,
+                                  size: 25,
+                                  color: Colors.white,
+                                ),
+                                TextHeeboReg(text: 'Delete', size: 12),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                child: TemplateItem(
+                  isSelected: bools[index],
+                  onSelected: onSelected,
+                  workout: templates[index],
+                  index: index,
+                ),
               ),
             ),
           ),
@@ -90,7 +130,7 @@ class _TemplateBodyState extends ConsumerState<TemplateBody> {
                       title: 'Create',
                       onPressed: () {
                         final Workout workoutCopy =
-                            templates[bools.indexOf(true)];
+                            templates[bools.indexOf(true)].copyWith();
 
                         final Workout workout = Workout(
                           id: const Uuid().v4(),
@@ -130,7 +170,7 @@ class _TemplateBodyState extends ConsumerState<TemplateBody> {
                         ref
                             .read(currentWorkoutProvider.notifier)
                             .setWorkout(workout);
-                        context.goNamed(Routes.workoutDetails);
+                        context.goNamed(Routes.templateDetails);
                       },
                       color: AppColors.blueAccent,
                     ),

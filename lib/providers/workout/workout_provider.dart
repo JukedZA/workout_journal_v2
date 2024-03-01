@@ -15,6 +15,30 @@ class CurrentWorkoutNotifier extends Notifier<Workout?> {
     state = workout;
   }
 
+  void saveNotes(Exercise exercise, String notes) {
+    if (state == null) return;
+
+    // Link to the workout object
+    final Workout workout = state!;
+
+    int exerciseIndex =
+        workout.exercises.indexWhere((e) => e.id == exercise.id);
+
+    if (exerciseIndex != -1) {
+      // Create a new Exercise instance with the updated notes
+      Exercise updatedExercise = Exercise(
+        title: exercise.title,
+        id: exercise.id,
+        workoutType: exercise.workoutType,
+        hasNotes: exercise.hasNotes,
+        notes: notes,
+        sets: exercise.sets,
+      );
+
+      workout.exercises[exerciseIndex] = updatedExercise;
+    }
+  }
+
   void saveSet(SetModel setItem, Exercise exercise) {
     if (state == null) return;
 
@@ -56,6 +80,29 @@ class WorkoutsNotifier extends Notifier<List<Workout>> {
     }
   }
 
+  void reorderExercises(Workout workout, List<Exercise> newExercises) {
+    if (state.isNotEmpty) {
+      final Workout newWorkout = Workout(
+        id: workout.id,
+        title: workout.title,
+        date: workout.date,
+        img: workout.img,
+        exercises: newExercises,
+        isTemplate: workout.isTemplate,
+      );
+
+      final int index = state.indexWhere((w) => w.id == workout.id);
+
+      if (index != -1) {
+        List<Workout> newState = List.from(state);
+
+        newState[index] = newWorkout;
+
+        state = newState;
+      }
+    }
+  }
+
   void clearTemplates() {
     if (state.isNotEmpty) {
       final newList =
@@ -79,6 +126,49 @@ class WorkoutsNotifier extends Notifier<List<Workout>> {
     Constants.workoutBox.put('workouts', list);
 
     state = list;
+  }
+
+  void replaceExercise(Exercise newExercise) {
+    final List<Workout> tempList = List.from(state);
+    final Workout? workout = ref.read(currentWorkoutProvider);
+
+    if (tempList.isEmpty || workout == null) return;
+
+    // Find the index of the workout with a matching id
+    int workoutIndex = tempList.indexWhere((w) => w.id == workout.id);
+
+    int exerciseIndex =
+        workout.exercises.indexWhere((e) => e.id == newExercise.id);
+
+    if (workoutIndex != -1) {
+      // Create a copy of the workout
+      Workout updatedWorkout = workout.copyWith(
+        exercises:
+            List.from(workout.exercises), // Create a copy of the exercises list
+      );
+
+      if (exerciseIndex != -1) {
+        // Create a new Exercise instance with the updated notes
+        Exercise updatedExercise = Exercise(
+          title: newExercise.title,
+          id: newExercise.id,
+          workoutType: newExercise.workoutType,
+          hasNotes: newExercise.hasNotes,
+          notes: newExercise.notes,
+          sets: newExercise.sets,
+        );
+
+        // Replace the old exercise with the updated one
+        updatedWorkout.exercises[exerciseIndex] = updatedExercise;
+      }
+
+      ref.read(currentWorkoutProvider.notifier).setWorkout(updatedWorkout);
+
+      tempList[workoutIndex] = updatedWorkout;
+
+      Constants.workoutBox.put('workouts', tempList);
+      state = tempList;
+    }
   }
 
   void removeExercise(Workout workout, Exercise exercise) {

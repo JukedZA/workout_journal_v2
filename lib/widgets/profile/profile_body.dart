@@ -50,7 +50,7 @@ class _ProfileBodyState extends ConsumerState<ProfileBody> {
 
     List<Workout> weeklyWorkouts = workouts
         .where(
-          (w) => w.date.isAfter(oneWeekAgo),
+          (w) => w.date.isAfter(oneWeekAgo) && w.isTemplate == false,
         )
         .toList();
 

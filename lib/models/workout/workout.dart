@@ -1,5 +1,6 @@
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:uuid/uuid.dart';
 import 'package:workout_journal_v2/models/workout/exercise.dart';
 
 part 'workout.g.dart';
@@ -27,6 +28,36 @@ class Workout {
     required this.exercises,
     required this.isTemplate,
   });
+
+  Workout copyWith({
+    String? id,
+    String? title,
+    DateTime? date,
+    String? img,
+    List<Exercise>? exercises,
+    bool? isTemplate,
+  }) {
+    List<Exercise> newExercises = [];
+
+    for (final exercise in exercises ?? this.exercises) {
+      String newId = const Uuid().v4();
+
+      Exercise newExercise = exercise.copyWith(
+        id: newId,
+      );
+
+      newExercises.add(newExercise); // Append the new exercise to the list
+    }
+
+    return Workout(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      date: date ?? this.date,
+      img: img ?? this.img,
+      exercises: newExercises,
+      isTemplate: isTemplate ?? this.isTemplate,
+    );
+  }
 
   String get formattedDate {
     DateTime now = DateTime.now();

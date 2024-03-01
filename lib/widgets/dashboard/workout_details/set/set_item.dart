@@ -28,11 +28,9 @@ class _SetItemState extends State<SetItem> {
     double? weight = double.tryParse(_weight);
     double? reps = double.tryParse(_reps);
 
-    final SetModel newSet = SetModel(
-      id: widget.setItem.id,
+    final SetModel newSet = widget.setItem.copyWith(
       weight: weight,
       reps: reps,
-      isWarmup: widget.setItem.isWarmup,
     );
 
     widget.saveSet(newSet);

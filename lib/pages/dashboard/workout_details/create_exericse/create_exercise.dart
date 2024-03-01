@@ -6,8 +6,10 @@ import 'package:workout_journal_v2/models/workout/exercise.dart';
 import 'package:workout_journal_v2/models/workout/set.dart';
 import 'package:workout_journal_v2/models/workout/workout.dart';
 import 'package:workout_journal_v2/providers/workout/workout_provider.dart';
+import 'package:workout_journal_v2/theme/colors.dart';
 import 'package:workout_journal_v2/theme/text_styles.dart';
 import 'package:workout_journal_v2/widgets/custom/create_button.dart';
+import 'package:workout_journal_v2/widgets/custom/drop_down.dart';
 import 'package:workout_journal_v2/widgets/custom/my_form_field.dart';
 import 'package:workout_journal_v2/widgets/custom/my_switch.dart';
 
@@ -29,10 +31,25 @@ class _CreateExerciseState extends ConsumerState<CreateExercise> {
   int _setNumber = 0;
   int _warmupNumber = 0;
 
+  String _selectedType = 'Barbell';
+
+  final List<String> _workoutTypes = [
+    'Barbell',
+    'Dumbbell',
+    'Kettlebell',
+    'Cables',
+    'Machine',
+    'Weighted',
+    'Bodyweight',
+  ];
+
   void _createExercise() {
     final Exercise exercise = Exercise(
       id: const Uuid().v4(),
       title: _name,
+      notes: '',
+      hasNotes: false,
+      workoutType: _selectedType,
       sets: [
         ...List.generate(
           _warmupNumber,
@@ -101,6 +118,40 @@ class _CreateExerciseState extends ConsumerState<CreateExercise> {
 
   List<Widget> _buildExerciseContent() {
     return [
+      Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: AppColors.secondary,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: MyDropdown(
+          value: _selectedType,
+          items: _workoutTypes
+              .map(
+                (String item) => DropdownMenuItem<String>(
+                  value: item,
+                  child: Text(
+                    item,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              )
+              .toList(),
+          onChanged: (value) {
+            setState(() {
+              if (value != null) {
+                _selectedType = value;
+              }
+            });
+          },
+        ),
+      ),
+      const SizedBox(height: 25),
       MyFormField(
         hintText: 'Exercise Name',
         suffixIcon: null,

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:workout_journal_v2/data/global_data.dart';
 import 'package:workout_journal_v2/providers/profile/profile_name_provider.dart';
+import 'package:workout_journal_v2/services/navigation_router.dart';
 import 'package:workout_journal_v2/theme/colors.dart';
 import 'package:workout_journal_v2/theme/text_styles.dart';
 
@@ -51,17 +53,24 @@ class DashboardNav extends ConsumerWidget {
         ],
       ),
       actions: [
-        Container(
-          height: 50,
-          width: 50,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(50),
-            color: AppColors.redAccent,
-          ),
-          child: const Icon(
-            Icons.person,
-            color: AppColors.secondary,
-            size: 25,
+        InkWell(
+          splashColor: Colors.transparent,
+          splashFactory: NoSplash.splashFactory,
+          onTap: () {
+            context.goNamed(Routes.profile);
+          },
+          child: Container(
+            height: 50,
+            width: 50,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(50),
+              color: AppColors.redAccent,
+            ),
+            child: const Icon(
+              Icons.person,
+              color: AppColors.secondary,
+              size: 25,
+            ),
           ),
         ),
         const SizedBox(width: 16),

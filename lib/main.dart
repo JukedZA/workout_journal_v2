@@ -56,6 +56,7 @@ class MyApp extends StatelessWidget {
         scrollbarTheme: const ScrollbarThemeData().copyWith(
           thumbColor: const MaterialStatePropertyAll(AppColors.tertiary),
         ),
+        cardColor: Colors.transparent,
         appBarTheme: const AppBarTheme().copyWith(
           foregroundColor: AppColors.white,
           backgroundColor: Colors.transparent,

@@ -18,4 +18,37 @@ class SetModel {
     required this.reps,
     required this.isWarmup,
   });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'weight': weight,
+      'reps': reps,
+      'isWarmup': isWarmup,
+    };
+  }
+
+  SetModel copyWith({
+    String? id,
+    double? weight,
+    double? reps,
+    bool? isWarmup,
+  }) {
+    return SetModel(
+      id: id ?? this.id,
+      weight: weight ?? this.weight,
+      reps: reps ?? this.reps,
+      isWarmup: isWarmup ?? this.isWarmup,
+    );
+  }
+
+  factory SetModel.fromJson(Map<String, dynamic> json) {
+    return SetModel(
+      id: json['id'],
+      weight: json['weight'],
+      reps: json['reps'],
+      isWarmup:
+          json['isWarmup'] ?? false, // Set default value if isWarmup is null
+    );
+  }
 }

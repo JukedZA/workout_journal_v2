@@ -19,6 +19,7 @@ class Routes {
 
   // SUBROUTES
   static const String workoutDetails = 'workout_details';
+  static const String templateDetails = 'template_details';
   static const String createWorkout = 'create_workout';
   static const String createExercise = 'create_exercise';
   static const String createTemplate = 'create_template';
@@ -106,6 +107,14 @@ class NavigationRouter {
                           const WorkoutTemplates(), state.pageKey);
                     },
                     routes: [
+                      GoRoute(
+                        name: Routes.templateDetails,
+                        path: Routes.templateDetails,
+                        pageBuilder: (context, state) {
+                          return buildSlideTransition(
+                              const WorkoutDetails(), state.pageKey);
+                        },
+                      ),
                       GoRoute(
                         name: Routes.createTemplate,
                         path: Routes.createTemplate,
