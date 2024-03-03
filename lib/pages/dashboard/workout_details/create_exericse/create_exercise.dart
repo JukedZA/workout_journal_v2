@@ -99,17 +99,19 @@ class _CreateExerciseState extends ConsumerState<CreateExercise> {
         padding: const EdgeInsets.all(25.0),
         child: Form(
           key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ..._buildExerciseContent(),
-              _buildWarmupSwitch(),
-              const SizedBox(height: 25),
-              if (_hasWarmup) ..._buildWarmupContent(),
-              CreateButton(
-                onPressed: _addExercise,
-              ),
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ..._buildExerciseContent(),
+                _buildWarmupSwitch(),
+                const SizedBox(height: 25),
+                if (_hasWarmup) ..._buildWarmupContent(),
+                CreateButton(
+                  onPressed: _addExercise,
+                ),
+              ],
+            ),
           ),
         ),
       ),

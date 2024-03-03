@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:workout_journal_v2/theme/text_styles.dart';
+import 'package:workout_journal_v2/widgets/custom/page_animator.dart';
 import 'package:workout_journal_v2/widgets/dashboard/calorie_calculator.dart/calorie_results_body.dart';
 
 class CalorieCalculatorResults extends StatelessWidget {
@@ -19,8 +20,10 @@ class CalorieCalculatorResults extends StatelessWidget {
           size: 24,
         ),
       ),
-      body: CalorieResultsBody(
-        calories: result,
+      body: PageContainer(
+        child: CalorieResultsBody(
+          calories: result,
+        ),
       ),
     );
   }

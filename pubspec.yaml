@@ -49,6 +49,7 @@ dependencies:
   file_picker: ^6.1.1
   dropdown_button2: ^2.3.9
   table_calendar: ^3.0.9
+  screenshot: ^2.1.0
 
 dev_dependencies:
   flutter_test:

@@ -22,6 +22,7 @@ class ScaffoldWithNavBar extends StatelessWidget {
     return WillPopScope(
       onWillPop: () => _onBackPressed(context),
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: navigationShell,
       ),
     );
