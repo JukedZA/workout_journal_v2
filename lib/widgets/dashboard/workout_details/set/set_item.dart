@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:workout_journal_v2/data/global_data.dart';
-import 'package:workout_journal_v2/models/workout/set.dart';
+import 'package:workout_journal_v2/models/set/set.dart';
 import 'package:workout_journal_v2/theme/colors.dart';
 import 'package:workout_journal_v2/theme/text_styles.dart';
 import 'package:workout_journal_v2/widgets/custom/set_form_field.dart';
@@ -9,11 +9,13 @@ class SetItem extends StatefulWidget {
   final SetModel setItem;
   final int index;
   final void Function(SetModel setItem) saveSet;
+  final bool isBodyWeight;
   const SetItem({
     Key? key,
     required this.setItem,
     required this.index,
     required this.saveSet,
+    required this.isBodyWeight,
   }) : super(key: key);
 
   @override
@@ -79,25 +81,40 @@ class _SetItemState extends State<SetItem> {
       onSaved: (newValue) {},
     );
 
-    content = Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        weightContent,
-        const TextHeebo(
-          text: 'reps of',
-          size: 12,
-          color: AppColors.secondaryText,
-          weight: Weights.reg,
-        ),
-        repsContent,
-        const TextHeebo(
-          text: 'kg',
-          size: 12,
-          color: AppColors.secondaryText,
-          weight: Weights.reg,
-        ),
-      ],
-    );
+    if (!widget.isBodyWeight) {
+      content = Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          weightContent,
+          const TextHeebo(
+            text: 'reps of',
+            size: 12,
+            color: AppColors.secondaryText,
+            weight: Weights.reg,
+          ),
+          repsContent,
+          const TextHeebo(
+            text: 'kg',
+            size: 12,
+            color: AppColors.secondaryText,
+            weight: Weights.reg,
+          ),
+        ],
+      );
+    } else {
+      content = Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          weightContent,
+          const TextHeebo(
+            text: 'reps',
+            size: 12,
+            color: AppColors.secondaryText,
+            weight: Weights.reg,
+          ),
+        ],
+      );
+    }
 
     if (widget.setItem.isWarmup) {
       return Row(

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_journal_v2/data/global_data.dart';
-import 'package:workout_journal_v2/models/workout/exercise.dart';
-import 'package:workout_journal_v2/models/workout/set.dart';
+import 'package:workout_journal_v2/models/exercise/exercise.dart';
+import 'package:workout_journal_v2/models/set/set.dart';
 import 'package:workout_journal_v2/models/workout/workout.dart';
 
 class CurrentWorkoutNotifier extends Notifier<Workout?> {

@@ -53,6 +53,18 @@ class DrawerItems extends ConsumerWidget {
               },
               backgroundColor: AppColors.secondary,
             ),
+            const SizedBox(height: 8),
+            DrawerItem(
+              title: 'Calorie Calculator',
+              icon: Icons.candlestick_chart_rounded,
+              trailingIcon: Icons.chevron_right_rounded,
+              onTap: () {
+                context.goNamed(Routes.calorieCalculator);
+
+                context.pop();
+              },
+              backgroundColor: AppColors.secondary,
+            ),
           ],
         ),
         Column(

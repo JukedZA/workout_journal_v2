@@ -1,7 +1,7 @@
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
-import 'package:workout_journal_v2/models/workout/exercise.dart';
+import 'package:workout_journal_v2/models/exercise/exercise.dart';
 
 part 'workout.g.dart';
 
@@ -24,9 +24,9 @@ class Workout {
     required this.id,
     required this.title,
     required this.date,
-    required this.img,
+    this.img = 'assets/images/workout-journal.png',
     required this.exercises,
-    required this.isTemplate,
+    this.isTemplate = false,
   });
 
   Workout copyWith({

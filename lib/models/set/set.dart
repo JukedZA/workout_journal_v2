@@ -44,9 +44,9 @@ class SetModel {
 
   factory SetModel.fromJson(Map<String, dynamic> json) {
     return SetModel(
-      id: json['id'],
-      weight: json['weight'],
-      reps: json['reps'],
+      id: json['id'] ?? 'ID not found',
+      weight: json['weight'] ?? 0,
+      reps: json['reps'] ?? 0,
       isWarmup:
           json['isWarmup'] ?? false, // Set default value if isWarmup is null
     );

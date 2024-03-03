@@ -7,6 +7,7 @@ import 'package:workout_journal_v2/providers/profile/profile_name_provider.dart'
 import 'package:workout_journal_v2/providers/workout/workout_provider.dart';
 import 'package:workout_journal_v2/theme/colors.dart';
 import 'package:workout_journal_v2/theme/text_styles.dart';
+import 'package:workout_journal_v2/widgets/custom/calendar/calendar.dart';
 import 'package:workout_journal_v2/widgets/custom/my_form_field.dart';
 
 class ProfileBody extends ConsumerStatefulWidget {
@@ -60,7 +61,11 @@ class _ProfileBodyState extends ConsumerState<ProfileBody> {
   @override
   Widget build(BuildContext context) {
     final String name = ref.watch(profileNameProvider);
-    final List<Workout> workouts = ref.watch(workoutsProvider);
+    List<Workout> workouts = ref.watch(workoutsProvider);
+
+    if (workouts.isNotEmpty) {
+      workouts = workouts.where((w) => w.isTemplate == false).toList();
+    }
 
     return Padding(
       padding: const EdgeInsets.all(25.0),
@@ -109,7 +114,15 @@ class _ProfileBodyState extends ConsumerState<ProfileBody> {
                   ],
                 ),
               ],
-            )
+            ),
+            const SizedBox(height: 25),
+            Column(
+              children: [
+                buildProfileItem('Activity Log', Icons.calendar_month),
+                const SizedBox(height: 16),
+                const MyCalendar(),
+              ],
+            ),
           ],
         ),
       ),

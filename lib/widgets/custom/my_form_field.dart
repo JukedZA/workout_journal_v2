@@ -25,7 +25,7 @@ class MyFormField extends StatelessWidget {
       validator: validator,
       keyboardType: isNumbers ? TextInputType.number : null,
       inputFormatters: isNumbers
-          ? <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly]
+          ? [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))]
           : null,
       style: GoogleFonts.heebo(
         color: AppColors.primaryText,

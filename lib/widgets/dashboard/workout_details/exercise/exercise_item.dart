@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:workout_journal_v2/data/global_data.dart';
-import 'package:workout_journal_v2/models/workout/exercise.dart';
-import 'package:workout_journal_v2/models/workout/set.dart';
+import 'package:workout_journal_v2/models/exercise/exercise.dart';
+import 'package:workout_journal_v2/models/set/set.dart';
 import 'package:workout_journal_v2/models/workout/workout.dart';
 import 'package:workout_journal_v2/providers/workout/workout_provider.dart';
 import 'package:workout_journal_v2/theme/colors.dart';
@@ -45,14 +45,6 @@ class _ExerciseItemState extends ConsumerState<ExerciseItem> {
 
     ref.read(workoutsProvider.notifier).replaceExercise(newExercise);
   }
-
-  // void _saveNotes() {
-  //   final Exercise newExercise = widget.exercise.copyWith(
-  //     notes: _notesController.text,
-  //   );
-
-  //   ref.read(workoutsProvider.notifier).replaceExercise(newExercise);
-  // }
 
   void _saveNotes() {
     final List<Workout> allWorkouts = ref.watch(workoutsProvider);
@@ -164,6 +156,10 @@ class _ExerciseItemState extends ConsumerState<ExerciseItem> {
               padding:
                   const EdgeInsets.only(top: 0, bottom: 16, left: 8, right: 8),
               child: SetList(
+                isBodyWeight:
+                    widget.exercise.workoutType.toLowerCase() == 'bodyweight'
+                        ? true
+                        : false,
                 sets: widget.exercise.sets,
                 saveSet: _createSet,
               ),

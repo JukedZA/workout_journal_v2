@@ -1,6 +1,6 @@
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:uuid/uuid.dart';
-import 'package:workout_journal_v2/models/workout/set.dart';
+import 'package:workout_journal_v2/models/set/set.dart';
 
 part 'exercise.g.dart';
 
@@ -21,9 +21,9 @@ class Exercise {
   const Exercise({
     required this.id,
     required this.title,
-    required this.workoutType,
-    required this.notes,
-    required this.hasNotes,
+    this.workoutType = 'Type not found',
+    this.notes = '',
+    this.hasNotes = false,
     required this.sets,
   });
 
@@ -65,11 +65,11 @@ class Exercise {
 
   factory Exercise.fromJson(Map<String, dynamic> json) {
     return Exercise(
-      id: json['id'],
-      title: json['title'],
-      notes: json['notes'],
-      hasNotes: json['hasNotes'],
-      workoutType: json['type'],
+      id: json['id'] ?? 'ID not found',
+      title: json['title'] ?? 'Title not found',
+      notes: json['notes'] ?? '',
+      hasNotes: json['hasNotes'] ?? false,
+      workoutType: json['type'] ?? 'Type not found',
       sets: List<SetModel>.from(
           json['sets'].map((setJson) => SetModel.fromJson(setJson))),
     );

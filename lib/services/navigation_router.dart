@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:workout_journal_v2/models/workout/workout.dart';
+import 'package:workout_journal_v2/pages/calorie_calculator/calorie_calculator.dart';
+import 'package:workout_journal_v2/pages/calorie_calculator/calorie_calculator_result.dart';
 import 'package:workout_journal_v2/pages/dashboard/create_workout/create_workout.dart';
 import 'package:workout_journal_v2/pages/dashboard/dashboard.dart';
 import 'package:workout_journal_v2/pages/dashboard/templates/create_template.dart';
@@ -24,8 +26,10 @@ class Routes {
   static const String createExercise = 'create_exercise';
   static const String createTemplate = 'create_template';
   static const String workoutTemplates = 'workout_templates';
+  static const String calorieResults = 'calorie_results';
 
   static const String profile = 'profile';
+  static const String calorieCalculator = 'calorie_calculator';
 }
 
 class NavigationRouter {
@@ -63,6 +67,27 @@ class NavigationRouter {
                   return buildFadeTransition(const Dashboard(), state.pageKey);
                 },
                 routes: [
+                  GoRoute(
+                    name: Routes.calorieCalculator,
+                    path: Routes.calorieCalculator,
+                    pageBuilder: (context, state) {
+                      return buildFadeTransition(
+                          const CalorieCalculator(), state.pageKey);
+                    },
+                    routes: [
+                      GoRoute(
+                        name: Routes.calorieResults,
+                        path: Routes.calorieResults,
+                        pageBuilder: (context, state) {
+                          final double calories = state.extra as double;
+
+                          return buildSlideTransition(
+                              CalorieCalculatorResults(result: calories),
+                              state.pageKey);
+                        },
+                      ),
+                    ],
+                  ),
                   GoRoute(
                     name: Routes.profile,
                     path: Routes.profile,

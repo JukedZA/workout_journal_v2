@@ -5,7 +5,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share/share.dart';
 import 'package:uuid/uuid.dart';
-import 'package:workout_journal_v2/models/workout/exercise.dart';
+import 'package:workout_journal_v2/models/exercise/exercise.dart';
 import 'package:workout_journal_v2/models/workout/workout.dart';
 
 class WorkoutJsonConverter {
@@ -59,9 +59,9 @@ class WorkoutJsonConverter {
           .toList();
       return Workout(
         id: const Uuid().v4(),
-        title: json['title'],
+        title: json['title'] ?? 'Title not found',
         date: DateTime.now(),
-        img: json['img'],
+        img: json['img'] ?? 'assets/images/workout-journal.png',
         exercises: exercises,
         isTemplate: true,
       );
