@@ -9,8 +9,8 @@ import 'package:workout_journal_v2/providers/workout/workout_provider.dart';
 import 'package:workout_journal_v2/services/navigation_router.dart';
 import 'package:workout_journal_v2/theme/colors.dart';
 import 'package:workout_journal_v2/theme/text_styles.dart';
-import 'package:workout_journal_v2/widgets/custom/create_button.dart';
-import 'package:workout_journal_v2/widgets/custom/my_form_field.dart';
+import 'package:workout_journal_v2/widgets/custom/buttons/create_button.dart';
+import 'package:workout_journal_v2/widgets/custom/form_fields/my_form_field.dart';
 import 'package:workout_journal_v2/widgets/dashboard/create_workout/Workout/create_workout_icon_button.dart';
 
 class CreateWorkoutForm extends ConsumerStatefulWidget {
@@ -150,6 +150,7 @@ class _CreateWorkoutFormState extends ConsumerState<CreateWorkoutForm> {
                 return 'Please enter a name';
               }
             },
+            onChanged: (String? newValue) {},
             onSaved: (newValue) {
               if (newValue != null && newValue.trim().isNotEmpty) {
                 _name = newValue;

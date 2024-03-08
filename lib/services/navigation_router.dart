@@ -11,6 +11,7 @@ import 'package:workout_journal_v2/pages/dashboard/workout_details/create_exeric
 import 'package:workout_journal_v2/pages/dashboard/workout_details/workout_details.dart';
 import 'package:workout_journal_v2/pages/login/login_check.dart';
 import 'package:workout_journal_v2/pages/profile/profile.dart';
+import 'package:workout_journal_v2/pages/tracking/exercise_tracking.dart';
 import 'package:workout_journal_v2/widgets/navigation/go_router_nav.dart';
 
 class Routes {
@@ -30,6 +31,7 @@ class Routes {
 
   static const String profile = 'profile';
   static const String calorieCalculator = 'calorie_calculator';
+  static const String exerciseTracking = 'exercise_tracking';
 }
 
 class NavigationRouter {
@@ -149,6 +151,14 @@ class NavigationRouter {
                         },
                       ),
                     ],
+                  ),
+                  GoRoute(
+                    name: Routes.exerciseTracking,
+                    path: Routes.exerciseTracking,
+                    pageBuilder: (context, state) {
+                      return buildFadeTransition(
+                          const ExerciseTracking(), state.pageKey);
+                    },
                   ),
                 ],
               ),

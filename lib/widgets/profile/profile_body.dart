@@ -8,7 +8,7 @@ import 'package:workout_journal_v2/providers/workout/workout_provider.dart';
 import 'package:workout_journal_v2/theme/colors.dart';
 import 'package:workout_journal_v2/theme/text_styles.dart';
 import 'package:workout_journal_v2/widgets/custom/calendar/calendar.dart';
-import 'package:workout_journal_v2/widgets/custom/my_form_field.dart';
+import 'package:workout_journal_v2/widgets/custom/form_fields/my_form_field.dart';
 
 class ProfileBody extends ConsumerStatefulWidget {
   const ProfileBody({Key? key}) : super(key: key);
@@ -87,6 +87,7 @@ class _ProfileBodyState extends ConsumerState<ProfileBody> {
                   size: 18,
                 ),
               ),
+              onChanged: (String? newValue) {},
               isNumbers: false,
               validator: (value) {
                 if (value == null || value.trim().isEmpty) {

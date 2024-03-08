@@ -18,6 +18,9 @@ class Exercise {
   final bool hasNotes;
   @HiveField(5)
   final List<SetModel> sets;
+  @HiveField(6)
+  final String trackerID;
+
   const Exercise({
     required this.id,
     required this.title,
@@ -25,6 +28,7 @@ class Exercise {
     this.notes = '',
     this.hasNotes = false,
     required this.sets,
+    this.trackerID = '',
   });
 
   Map<String, dynamic> toJson() {
@@ -45,12 +49,16 @@ class Exercise {
     bool? hasNotes,
     String? workoutType,
     List<SetModel>? sets,
+    String? trackerID,
   }) {
-    List<SetModel> newSets = sets ?? this.sets;
+    List<SetModel> newSets = [];
 
-    for (int i = 0; i < newSets.length; i++) {
+    for (final s in sets ?? this.sets) {
       String newId = const Uuid().v4();
-      newSets[i] = newSets[i].copyWith(id: newId);
+
+      SetModel newSet = s.copyWith(id: newId);
+
+      newSets.add(newSet);
     }
 
     return Exercise(
@@ -60,6 +68,7 @@ class Exercise {
       hasNotes: hasNotes ?? this.hasNotes,
       workoutType: workoutType ?? this.workoutType,
       sets: newSets,
+      trackerID: trackerID ?? this.trackerID,
     );
   }
 
@@ -72,6 +81,7 @@ class Exercise {
       workoutType: json['type'] ?? 'Type not found',
       sets: List<SetModel>.from(
           json['sets'].map((setJson) => SetModel.fromJson(setJson))),
+      trackerID: '',
     );
   }
 }

@@ -25,9 +25,7 @@ class SetFormField extends StatelessWidget {
         cursorColor: AppColors.white,
         textAlign: TextAlign.center,
         keyboardType: TextInputType.number,
-        inputFormatters: <TextInputFormatter>[
-          FilteringTextInputFormatter.digitsOnly
-        ],
+        inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))],
         onSaved: onSaved,
         onChanged: onChanged,
         initialValue: initialValue,
@@ -35,19 +33,22 @@ class SetFormField extends StatelessWidget {
           color: Colors.white,
           fontSize: 14,
         ),
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           enabledBorder: UnderlineInputBorder(
-            borderSide: const BorderSide(color: AppColors.primaryText),
-            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: AppColors.secondaryText),
           ),
-          contentPadding: const EdgeInsets.all(0),
+          border: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.white),
+          ),
+          contentPadding: EdgeInsets.all(0),
           focusedBorder: UnderlineInputBorder(
-            borderSide: const BorderSide(color: Colors.white),
-            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(
+              color: Colors.white,
+              style: BorderStyle.solid,
+            ),
           ),
-          filled: true,
-          fillColor: AppColors.secondary,
-          hintStyle: const TextStyle(color: AppColors.primaryText),
+          filled: false,
+          hintStyle: TextStyle(color: AppColors.primaryText),
           hintText: '',
         ),
       ),

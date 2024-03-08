@@ -1,13 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:intl/intl.dart';
+import 'package:workout_journal_v2/models/tracking/tracking_model.dart';
 import 'package:workout_journal_v2/models/workout/workout.dart';
 import 'package:workout_journal_v2/theme/colors.dart';
 import 'package:workout_journal_v2/theme/text_styles.dart';
 
+class BoxNames {
+  static const workouts = 'workouts';
+  static const trackers = 'trackers';
+}
+
 class Constants {
   // USER INFO
   static late String name;
+
+  // WEIGHT INFO
+  static String weightUnit = 'kg';
 
   // WORKOUT STORAGE
   static late Box workoutBox;
@@ -16,8 +26,15 @@ class Constants {
   // TEMPLATE STORAGE
   static List<Workout> templates = [];
 
+  // TRACKER STORAGE
+  static List<Tracker> trackers = [];
+
   // METHODS
-  static void setList(List<Workout> list) {
+  static void setTrackerList(List<Tracker> list) {
+    trackers = list;
+  }
+
+  static void setWorkoutList(List<Workout> list) {
     workouts = list;
   }
 
@@ -27,6 +44,32 @@ class Constants {
 }
 
 class Methods {
+  static final numberFormatter = NumberFormat.decimalPatternDigits(
+    decimalDigits: 0,
+  );
+
+  static final compactNumberFormatter = NumberFormat.compact();
+
+  static String truncateDecimals(double number) {
+    String numberString = number.toString();
+    // Check if the number has decimals
+    if (numberString.contains('.')) {
+      // Find the index of the decimal point
+      int decimalIndex = numberString.indexOf('.');
+      // Find the length of the decimals
+      int decimalsLength = numberString.substring(decimalIndex + 1).length;
+      // Truncate the decimals to a maximum of two
+      int truncateLength = decimalsLength > 2 ? 2 : decimalsLength;
+      // Return the truncated number
+      return number
+          .toStringAsFixed(truncateLength)
+          .replaceAll(RegExp(r"([.]*0)(?!.*\d)"), "");
+    } else {
+      // If there are no decimals, return the integer part
+      return number.toString();
+    }
+  }
+
   static String formatName(String name) {
     if (name.isEmpty) {
       return '';

@@ -5,6 +5,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:workout_journal_v2/data/global_data.dart';
 import 'package:workout_journal_v2/models/exercise/exercise.dart';
 import 'package:workout_journal_v2/models/set/set.dart';
+import 'package:workout_journal_v2/models/tracking/tracking_model.dart';
 import 'package:workout_journal_v2/models/workout/workout.dart';
 import 'package:workout_journal_v2/services/navigation_router.dart';
 import 'package:workout_journal_v2/theme/colors.dart';
@@ -16,28 +17,38 @@ Future<void> main() async {
   Hive.registerAdapter(WorkoutAdapter());
   Hive.registerAdapter(ExerciseAdapter());
   Hive.registerAdapter(SetModelAdapter());
+  Hive.registerAdapter(TrackerAdapter());
 
   await Hive.openBox('all-workouts');
 
   Constants.workoutBox = Hive.box('all-workouts');
 
-  if (Constants.workoutBox.get('workouts') != null) {
-    List<dynamic> storedWorkouts = Constants.workoutBox.get('workouts');
+  if (Constants.workoutBox.get(BoxNames.workouts) != null) {
+    List<dynamic> storedWorkouts = Constants.workoutBox.get(BoxNames.workouts);
     if (storedWorkouts.isNotEmpty) {
-      Constants.setList(storedWorkouts.cast<Workout>());
+      Constants.setWorkoutList(storedWorkouts.cast<Workout>());
     } else {
-      Constants.setList(<Workout>[]);
+      Constants.setWorkoutList(<Workout>[]);
     }
   } else {
-    Constants.setList(<Workout>[]);
+    Constants.setWorkoutList(<Workout>[]);
+  }
+
+  if (Constants.workoutBox.get(BoxNames.trackers) != null) {
+    List<dynamic> storedTrackers = Constants.workoutBox.get(BoxNames.trackers);
+    if (storedTrackers.isNotEmpty) {
+      Constants.setTrackerList(storedTrackers.cast<Tracker>());
+    } else {
+      Constants.setTrackerList(<Tracker>[]);
+    }
+  } else {
+    Constants.setTrackerList(<Tracker>[]);
   }
 
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-
-  Paint.enableDithering = true;
 
   runApp(const ProviderScope(child: MyApp()));
 }
@@ -66,9 +77,10 @@ class MyApp extends StatelessWidget {
       routerConfig: NavigationRouter.router,
       builder: (context, child) {
         final mediaQueryData = MediaQuery.of(context);
-        final scale = mediaQueryData.textScaleFactor.clamp(1.0, 1.05);
+        final scale = mediaQueryData.textScaler
+            .clamp(minScaleFactor: 1.0, maxScaleFactor: 1.05);
         return MediaQuery(
-          data: MediaQuery.of(context).copyWith(textScaleFactor: scale),
+          data: MediaQuery.of(context).copyWith(textScaler: scale),
           child: child!,
         );
       },

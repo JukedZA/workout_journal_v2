@@ -7,7 +7,7 @@ import 'package:workout_journal_v2/providers/workout/workout_provider.dart';
 import 'package:workout_journal_v2/services/navigation_router.dart';
 import 'package:workout_journal_v2/theme/colors.dart';
 import 'package:workout_journal_v2/theme/text_styles.dart';
-import 'package:workout_journal_v2/widgets/custom/custom_popup_body.dart';
+import 'package:workout_journal_v2/widgets/custom/popup_menu/custom_popup_body.dart';
 import 'package:workout_journal_v2/widgets/dashboard/create_workout/Template/template_body.dart';
 
 class WorkoutTemplates extends ConsumerWidget {
@@ -40,6 +40,14 @@ class WorkoutTemplates extends ConsumerWidget {
                     title: 'Create Template',
                     icon: Icons.add_circle_rounded,
                     iconSize: 22,
+                  ),
+                ),
+                PopupMenuItem(
+                  height: 5,
+                  child: Container(
+                    height: 1,
+                    width: double.infinity,
+                    color: AppColors.tertiary,
                   ),
                 ),
                 PopupMenuItem(

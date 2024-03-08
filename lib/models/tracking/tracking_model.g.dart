@@ -1,50 +1,35 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'exercise.dart';
+part of 'tracking_model.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class ExerciseAdapter extends TypeAdapter<Exercise> {
+class TrackerAdapter extends TypeAdapter<Tracker> {
   @override
-  final int typeId = 1;
+  final int typeId = 3;
 
   @override
-  Exercise read(BinaryReader reader) {
+  Tracker read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Exercise(
+    return Tracker(
       id: fields[0] as String,
       title: fields[1] as String,
-      workoutType: fields[2] as String,
-      notes: fields[3] as String,
-      hasNotes: fields[4] as bool,
-      sets: (fields[5] as List).cast<SetModel>(),
-      trackerID: fields[6] as String,
     );
   }
 
   @override
-  void write(BinaryWriter writer, Exercise obj) {
+  void write(BinaryWriter writer, Tracker obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(2)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.title)
-      ..writeByte(2)
-      ..write(obj.workoutType)
-      ..writeByte(3)
-      ..write(obj.notes)
-      ..writeByte(4)
-      ..write(obj.hasNotes)
-      ..writeByte(5)
-      ..write(obj.sets)
-      ..writeByte(6)
-      ..write(obj.trackerID);
+      ..write(obj.title);
   }
 
   @override
@@ -53,7 +38,7 @@ class ExerciseAdapter extends TypeAdapter<Exercise> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is ExerciseAdapter &&
+      other is TrackerAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

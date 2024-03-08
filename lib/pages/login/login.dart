@@ -6,7 +6,7 @@ import 'package:workout_journal_v2/data/global_data.dart';
 import 'package:workout_journal_v2/services/navigation_router.dart';
 import 'package:workout_journal_v2/theme/colors.dart';
 import 'package:workout_journal_v2/theme/text_styles.dart';
-import 'package:workout_journal_v2/widgets/custom/my_form_field.dart';
+import 'package:workout_journal_v2/widgets/custom/form_fields/my_form_field.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -83,6 +83,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     return null;
                   }
                 },
+                onChanged: (newValue) {},
                 onSaved: (newValue) {
                   _name = newValue!;
                 },

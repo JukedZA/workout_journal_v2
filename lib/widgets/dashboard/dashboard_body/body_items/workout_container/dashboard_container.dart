@@ -6,7 +6,6 @@ import 'package:workout_journal_v2/models/workout/workout.dart';
 import 'package:workout_journal_v2/providers/workout/workout_filter_provider.dart';
 import 'package:workout_journal_v2/providers/workout/workout_provider.dart';
 import 'package:workout_journal_v2/theme/colors.dart';
-import 'package:workout_journal_v2/theme/text_styles.dart';
 import 'package:workout_journal_v2/widgets/custom/no_items_found.dart';
 import 'package:workout_journal_v2/widgets/dashboard/dashboard_body/body_items/workout_container/workout_item.dart';
 
@@ -56,6 +55,7 @@ class DashboardContainer extends ConsumerWidget {
               key: ValueKey(workouts[index]),
               endActionPane: ActionPane(
                 motion: const BehindMotion(),
+                extentRatio: 2 / 8,
                 children: [
                   Expanded(
                     child: Padding(
@@ -77,11 +77,10 @@ class DashboardContainer extends ConsumerWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(
-                                Icons.delete,
+                                Icons.delete_rounded,
                                 size: 25,
                                 color: Colors.white,
                               ),
-                              TextHeeboReg(text: 'Delete', size: 12),
                             ],
                           ),
                         ),

@@ -9,6 +9,7 @@ class MyFormField extends StatelessWidget {
   final Widget? suffixIcon;
   final String? Function(String? value)? validator;
   final void Function(String? newValue) onSaved;
+  final void Function(String? newValue) onChanged;
   const MyFormField({
     Key? key,
     required this.hintText,
@@ -16,6 +17,7 @@ class MyFormField extends StatelessWidget {
     required this.suffixIcon,
     required this.validator,
     required this.onSaved,
+    required this.onChanged,
   }) : super(key: key);
 
   @override
@@ -46,6 +48,7 @@ class MyFormField extends StatelessWidget {
         filled: true,
         fillColor: AppColors.secondary,
       ),
+      onChanged: onChanged,
       onSaved: onSaved,
     );
   }

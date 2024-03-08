@@ -4,9 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:workout_journal_v2/data/global_data.dart';
 import 'package:workout_journal_v2/services/navigation_router.dart';
 import 'package:workout_journal_v2/theme/colors.dart';
-import 'package:workout_journal_v2/widgets/custom/default_button.dart';
+import 'package:workout_journal_v2/widgets/custom/buttons/default_button.dart';
 import 'package:workout_journal_v2/widgets/custom/drop_down.dart';
-import 'package:workout_journal_v2/widgets/custom/my_form_field.dart';
+import 'package:workout_journal_v2/widgets/custom/form_fields/my_form_field.dart';
 
 class CalorieCalculatorBody extends StatefulWidget {
   const CalorieCalculatorBody({Key? key}) : super(key: key);
@@ -112,6 +112,7 @@ class _CalorieCalculatorBodyState extends State<CalorieCalculatorBody> {
                     return null;
                   }
                 },
+                onChanged: (String? newValue) {},
                 onSaved: (value) {
                   if (value != null) {
                     setState(() {
@@ -137,6 +138,7 @@ class _CalorieCalculatorBodyState extends State<CalorieCalculatorBody> {
                     return null;
                   }
                 },
+                onChanged: (String? newValue) {},
                 onSaved: (value) {
                   if (value != null) {
                     setState(() {
@@ -155,6 +157,7 @@ class _CalorieCalculatorBodyState extends State<CalorieCalculatorBody> {
                 hintText: 'Your Height',
                 isNumbers: true,
                 suffixIcon: null,
+                onChanged: (String? newValue) {},
                 validator: (value) {
                   if (value == '0' || value == null || value.isEmpty) {
                     return 'Please enter a value';
@@ -183,6 +186,7 @@ class _CalorieCalculatorBodyState extends State<CalorieCalculatorBody> {
                 ),
                 child: MyDropdown(
                   value: _currentGender,
+                  hint: '',
                   items: _genders
                       .map(
                         (String item) => DropdownMenuItem<String>(
@@ -216,6 +220,7 @@ class _CalorieCalculatorBodyState extends State<CalorieCalculatorBody> {
                 ),
                 child: MyDropdown(
                   value: _currentFrequency,
+                  hint: '',
                   items: _workoutFrequency
                       .map(
                         (String item) => DropdownMenuItem<String>(

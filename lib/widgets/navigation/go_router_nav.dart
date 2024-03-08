@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:workout_journal_v2/data/global_data.dart';
@@ -19,8 +21,20 @@ class ScaffoldWithNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () => _onBackPressed(context),
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (bool didPop) async {
+        bool b = await _onBackPressed(context);
+
+        if (b) {
+          if (context.mounted) {
+            exit(0);
+          }
+          return;
+        } else {
+          return;
+        }
+      },
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         body: navigationShell,

@@ -6,7 +6,6 @@ import 'package:workout_journal_v2/models/exercise/exercise.dart';
 import 'package:workout_journal_v2/models/workout/workout.dart';
 import 'package:workout_journal_v2/providers/workout/workout_provider.dart';
 import 'package:workout_journal_v2/theme/colors.dart';
-import 'package:workout_journal_v2/theme/text_styles.dart';
 import 'package:workout_journal_v2/widgets/dashboard/workout_details/exercise/exercise_item.dart';
 
 class ExerciseList extends ConsumerWidget {
@@ -46,82 +45,42 @@ class ExerciseList extends ConsumerWidget {
             key: ValueKey(exercises[index]),
             endActionPane: ActionPane(
               motion: const BehindMotion(),
+              extentRatio: 2 / 8,
               children: [
                 Expanded(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                            bottom: 8,
-                            left: 8,
-                          ),
-                          child: GestureDetector(
-                            onTap: () {},
-                            child: Container(
-                              padding: const EdgeInsets.all(8),
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                color: AppColors.blueAccent,
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: const Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.edit_document,
-                                    size: 30,
-                                    color: Colors.white,
-                                  ),
-                                  SizedBox(height: 8),
-                                  TextHeeboReg(text: 'Edit', size: 14),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 8, left: 8),
-                          child: GestureDetector(
-                            onTap: () {
-                              ref
-                                  .read(workoutsProvider.notifier)
-                                  .removeExercise(workout, exercises[index]);
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 25, left: 8),
+                    child: GestureDetector(
+                      onTap: () {
+                        ref
+                            .read(workoutsProvider.notifier)
+                            .removeExercise(workout, exercises[index]);
 
-                              Methods.showToastMessage(
-                                  context,
-                                  AppColors.redAccent,
-                                  Icons.check_rounded,
-                                  'Exercise Deleted Successfully');
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.all(8),
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                color: AppColors.redAccent,
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: const Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.delete,
-                                    size: 35,
-                                    color: Colors.white,
-                                  ),
-                                  SizedBox(height: 8),
-                                  TextHeeboReg(text: 'Delete', size: 14),
-                                ],
-                              ),
+                        Methods.showToastMessage(
+                            context,
+                            AppColors.redAccent,
+                            Icons.check_rounded,
+                            'Exercise Deleted Successfully');
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: AppColors.redAccent,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: const Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.delete_rounded,
+                              size: 35,
+                              color: Colors.white,
                             ),
-                          ),
+                          ],
                         ),
                       ),
-                      const SizedBox(height: 17),
-                    ],
+                    ),
                   ),
                 ),
               ],

@@ -3,7 +3,7 @@ import 'package:workout_journal_v2/data/global_data.dart';
 import 'package:workout_journal_v2/models/set/set.dart';
 import 'package:workout_journal_v2/theme/colors.dart';
 import 'package:workout_journal_v2/theme/text_styles.dart';
-import 'package:workout_journal_v2/widgets/custom/set_form_field.dart';
+import 'package:workout_journal_v2/widgets/custom/form_fields/set_form_field.dart';
 
 class SetItem extends StatefulWidget {
   final SetModel setItem;
@@ -44,17 +44,20 @@ class _SetItemState extends State<SetItem> {
     Widget weightContent, repsContent;
     String? weight, reps;
 
-    if (widget.setItem.reps == null && widget.setItem.weight == null) {
+    double? w = widget.setItem.weight;
+    double? r = widget.setItem.reps;
+
+    if (r == null && w == null) {
       weight = reps = null;
-    } else if (widget.setItem.reps == null) {
+    } else if (r == null && w != null) {
       reps = null;
-      weight = widget.setItem.weight!.toInt().toString();
-    } else if (widget.setItem.weight == null) {
+      weight = Methods.truncateDecimals(w);
+    } else if (w == null && r != null) {
       weight = null;
-      reps = widget.setItem.reps!.toInt().toString();
+      reps = Methods.truncateDecimals(r);
     } else {
-      weight = widget.setItem.weight!.toInt().toString();
-      reps = widget.setItem.reps!.toInt().toString();
+      weight = Methods.truncateDecimals(w!);
+      reps = Methods.truncateDecimals(r!);
     }
 
     weightContent = SetFormField(
@@ -85,16 +88,16 @@ class _SetItemState extends State<SetItem> {
       content = Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          weightContent,
+          repsContent,
           const TextHeebo(
             text: 'reps of',
             size: 12,
             color: AppColors.secondaryText,
             weight: Weights.reg,
           ),
-          repsContent,
-          const TextHeebo(
-            text: 'kg',
+          weightContent,
+          TextHeebo(
+            text: Constants.weightUnit,
             size: 12,
             color: AppColors.secondaryText,
             weight: Weights.reg,
@@ -105,7 +108,7 @@ class _SetItemState extends State<SetItem> {
       content = Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          weightContent,
+          repsContent,
           const TextHeebo(
             text: 'reps',
             size: 12,

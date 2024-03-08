@@ -65,6 +65,18 @@ class DrawerItems extends ConsumerWidget {
               },
               backgroundColor: AppColors.secondary,
             ),
+            const SizedBox(height: 8),
+            DrawerItem(
+              title: 'Exercise Tracking',
+              icon: Icons.stacked_bar_chart_rounded,
+              trailingIcon: Icons.chevron_right_rounded,
+              onTap: () {
+                context.goNamed(Routes.exerciseTracking);
+
+                context.pop();
+              },
+              backgroundColor: AppColors.secondary,
+            ),
           ],
         ),
         Column(

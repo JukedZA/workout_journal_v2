@@ -18,18 +18,19 @@ class CustomPopupBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Icon(
-          icon,
-          color: AppColors.redAccent,
-          size: iconSize,
-        ),
-        const SizedBox(width: 16),
         TextHeebo(
           text: title,
           size: 14,
           color: AppColors.secondaryText,
           weight: Weights.medium,
+        ),
+        const Spacer(),
+        Icon(
+          icon,
+          color: AppColors.redAccent,
+          size: iconSize,
         ),
       ],
     );

@@ -4,13 +4,15 @@ import 'package:go_router/go_router.dart';
 import 'package:uuid/uuid.dart';
 import 'package:workout_journal_v2/models/exercise/exercise.dart';
 import 'package:workout_journal_v2/models/set/set.dart';
+import 'package:workout_journal_v2/models/tracking/tracking_model.dart';
 import 'package:workout_journal_v2/models/workout/workout.dart';
+import 'package:workout_journal_v2/providers/trackers/exercise_trackers.dart';
 import 'package:workout_journal_v2/providers/workout/workout_provider.dart';
 import 'package:workout_journal_v2/theme/colors.dart';
 import 'package:workout_journal_v2/theme/text_styles.dart';
-import 'package:workout_journal_v2/widgets/custom/create_button.dart';
+import 'package:workout_journal_v2/widgets/custom/buttons/create_button.dart';
 import 'package:workout_journal_v2/widgets/custom/drop_down.dart';
-import 'package:workout_journal_v2/widgets/custom/my_form_field.dart';
+import 'package:workout_journal_v2/widgets/custom/form_fields/my_form_field.dart';
 import 'package:workout_journal_v2/widgets/custom/my_switch.dart';
 
 class CreateExercise extends ConsumerStatefulWidget {
@@ -32,6 +34,11 @@ class _CreateExerciseState extends ConsumerState<CreateExercise> {
   int _warmupNumber = 0;
 
   String _selectedType = 'Barbell';
+  String? _selectedTracker;
+
+  String _newTrackerName = '';
+
+  bool _newTracker = false;
 
   final List<String> _workoutTypes = [
     'Barbell',
@@ -42,6 +49,8 @@ class _CreateExerciseState extends ConsumerState<CreateExercise> {
     'Weighted',
     'Bodyweight',
   ];
+
+  late List<Tracker> _trackers;
 
   void _createExercise() {
     final Exercise exercise = Exercise(
@@ -70,7 +79,10 @@ class _CreateExerciseState extends ConsumerState<CreateExercise> {
           ),
         ),
       ],
+      trackerID: _selectedTracker ?? '',
     );
+
+    debugPrint(exercise.trackerID);
 
     ref.read(workoutsProvider.notifier).addExercise(widget.workout, exercise);
   }
@@ -86,7 +98,16 @@ class _CreateExerciseState extends ConsumerState<CreateExercise> {
   }
 
   @override
+  void initState() {
+    super.initState();
+
+    _trackers = ref.read(trackersProvider);
+  }
+
+  @override
   Widget build(BuildContext context) {
+    _trackers = ref.watch(trackersProvider);
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -120,6 +141,126 @@ class _CreateExerciseState extends ConsumerState<CreateExercise> {
 
   List<Widget> _buildExerciseContent() {
     return [
+      Row(
+        children: [
+          Expanded(
+            child: Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: AppColors.secondary,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: MyDropdown(
+                value: _selectedTracker,
+                hint: 'No Exercise Tracker',
+                items: [
+                  if (_trackers.isNotEmpty)
+                    ..._trackers
+                        .map(
+                          (Tracker item) => DropdownMenuItem<String>(
+                            value: item.id,
+                            child: TextHeeboMedium(
+                              text: item.title,
+                              size: 14,
+                            ),
+                          ),
+                        )
+                        .toList(),
+                ],
+                onChanged: (value) {
+                  setState(() {
+                    if (value != null) {
+                      _selectedTracker = value;
+                    }
+                  });
+                },
+              ),
+            ),
+          ),
+          const SizedBox(width: 8),
+          InkWell(
+            splashColor: Colors.transparent,
+            splashFactory: NoSplash.splashFactory,
+            onTap: () {
+              setState(() {
+                _newTracker = true;
+              });
+            },
+            child: Container(
+              width: 50,
+              height: 50,
+              decoration: BoxDecoration(
+                color: AppColors.redAccent,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: const Icon(
+                Icons.add_rounded,
+                color: AppColors.white,
+                size: 24,
+              ),
+            ),
+          ),
+        ],
+      ),
+      if (_newTracker)
+        Column(
+          children: [
+            const SizedBox(height: 12),
+            MyFormField(
+              hintText: 'Tracker Name',
+              suffixIcon: _newTrackerName.isEmpty
+                  ? IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _newTracker = false;
+                        });
+                      },
+                      icon: const Icon(
+                        Icons.close_rounded,
+                        color: AppColors.secondaryText,
+                        size: 24,
+                      ),
+                    )
+                  : IconButton(
+                      onPressed: () {
+                        if (_newTrackerName.isEmpty) return;
+
+                        Tracker tracker = Tracker(
+                          id: const Uuid().v4(),
+                          title: _newTrackerName,
+                        );
+
+                        _newTracker = false;
+                        _newTrackerName = '';
+
+                        ref.read(trackersProvider.notifier).addTracker(tracker);
+                      },
+                      icon: const Icon(
+                        Icons.save_rounded,
+                        color: AppColors.secondaryText,
+                        size: 20,
+                      ),
+                    ),
+              onChanged: (String? newValue) {
+                if (newValue != null) {
+                  setState(() {
+                    _newTrackerName = newValue;
+                  });
+                }
+              },
+              validator: (value) {
+                if (value != null && value.trim().isNotEmpty) {
+                  return null;
+                } else {
+                  return 'Please enter a name';
+                }
+              },
+              isNumbers: false,
+              onSaved: (newValue) {},
+            ),
+          ],
+        ),
+      const SizedBox(height: 25),
       Container(
         width: double.infinity,
         decoration: BoxDecoration(
@@ -128,18 +269,14 @@ class _CreateExerciseState extends ConsumerState<CreateExercise> {
         ),
         child: MyDropdown(
           value: _selectedType,
+          hint: '',
           items: _workoutTypes
               .map(
                 (String item) => DropdownMenuItem<String>(
                   value: item,
-                  child: Text(
-                    item,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                    overflow: TextOverflow.ellipsis,
+                  child: TextHeeboMedium(
+                    text: item,
+                    size: 14,
                   ),
                 ),
               )
@@ -164,6 +301,7 @@ class _CreateExerciseState extends ConsumerState<CreateExercise> {
             return 'Please enter a name';
           }
         },
+        onChanged: (newValue) {},
         isNumbers: false,
         onSaved: (newValue) {
           if (newValue != null && newValue.trim().isNotEmpty) {
@@ -187,6 +325,7 @@ class _CreateExerciseState extends ConsumerState<CreateExercise> {
             return 'Enter a number between 1 and 20';
           }
         },
+        onChanged: (newValue) {},
         onSaved: (newValue) {
           if (newValue != null &&
               newValue.trim().isNotEmpty &&
@@ -233,6 +372,7 @@ class _CreateExerciseState extends ConsumerState<CreateExercise> {
             return 'Enter a number between 1 and 5';
           }
         },
+        onChanged: (newValue) {},
         onSaved: (newValue) {
           if (newValue != null &&
               newValue.trim().isNotEmpty &&

@@ -53,7 +53,7 @@ class _ExerciseItemState extends ConsumerState<ExerciseItem> {
         .read(currentWorkoutProvider.notifier)
         .saveNotes(widget.exercise, _notesController.text);
 
-    Constants.workoutBox.put('workouts', allWorkouts);
+    Constants.workoutBox.put(BoxNames.workouts, allWorkouts);
 
     // setState(() {});
   }
@@ -66,7 +66,7 @@ class _ExerciseItemState extends ConsumerState<ExerciseItem> {
           widget.exercise,
         );
 
-    Constants.workoutBox.put('workouts', allWorkouts);
+    Constants.workoutBox.put(BoxNames.workouts, allWorkouts);
 
     setState(() {});
   }

@@ -125,21 +125,27 @@ class _MyCalendarState extends ConsumerState<MyCalendar> {
           headerTitleBuilder: (context, day) => const SizedBox(),
 
           // TODAY BUILDER
-          todayBuilder: (context, day, focusedDay) => Container(
-            width: double.infinity,
-            height: double.infinity,
-            margin: const EdgeInsets.all(4),
-            decoration: BoxDecoration(
-              color: AppColors.redAccent,
-              borderRadius: BorderRadius.circular(4),
-            ),
-            child: Center(
-              child: TextHeeboBold(
-                text: day.day.toString(),
-                size: 10,
+          todayBuilder: (context, day, focusedDay) {
+            final hasWorkout = _getEventsForDay(day).isNotEmpty;
+            final backgroundColor =
+                hasWorkout ? AppColors.redAccent : AppColors.tertiary;
+
+            return Container(
+              width: double.infinity,
+              height: double.infinity,
+              margin: const EdgeInsets.all(4),
+              decoration: BoxDecoration(
+                color: backgroundColor,
+                borderRadius: BorderRadius.circular(4),
               ),
-            ),
-          ),
+              child: Center(
+                child: TextHeeboBold(
+                  text: day.day.toString(),
+                  size: 10,
+                ),
+              ),
+            );
+          },
 
           // DEFAULT BUILDER
           defaultBuilder: (context, day, focusedDay) {

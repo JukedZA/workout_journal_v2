@@ -50,6 +50,7 @@ dependencies:
   dropdown_button2: ^2.3.9
   table_calendar: ^3.0.9
   screenshot: ^2.1.0
+  fl_chart: ^0.66.2
 
 dev_dependencies:
   flutter_test:

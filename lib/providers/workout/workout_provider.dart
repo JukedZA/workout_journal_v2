@@ -33,6 +33,7 @@ class CurrentWorkoutNotifier extends Notifier<Workout?> {
         hasNotes: exercise.hasNotes,
         notes: notes,
         sets: exercise.sets,
+        trackerID: exercise.trackerID,
       );
 
       workout.exercises[exerciseIndex] = updatedExercise;
@@ -43,6 +44,9 @@ class CurrentWorkoutNotifier extends Notifier<Workout?> {
     if (state == null) return;
 
     if (exercise.sets.isNotEmpty) {
+      print(exercise.id);
+      print(setItem.id);
+
       final int index =
           exercise.sets.indexWhere((item) => item.id == setItem.id);
 
@@ -74,7 +78,7 @@ class WorkoutsNotifier extends Notifier<List<Workout>> {
       final newList =
           state.where((workout) => workout.isTemplate == true).toList();
 
-      Constants.workoutBox.put('workouts', newList);
+      Constants.workoutBox.put(BoxNames.workouts, newList);
 
       state = newList;
     }
@@ -108,14 +112,14 @@ class WorkoutsNotifier extends Notifier<List<Workout>> {
       final newList =
           state.where((workout) => workout.isTemplate == false).toList();
 
-      Constants.workoutBox.put('workouts', newList);
+      Constants.workoutBox.put(BoxNames.workouts, newList);
 
       state = newList;
     }
   }
 
   void setList(List<Workout> list) {
-    Constants.workoutBox.put('workouts', list);
+    Constants.workoutBox.put(BoxNames.workouts, list);
 
     state = list;
   }
@@ -123,7 +127,7 @@ class WorkoutsNotifier extends Notifier<List<Workout>> {
   void addItem(Workout item) {
     final List<Workout> list = [item, ...state];
 
-    Constants.workoutBox.put('workouts', list);
+    Constants.workoutBox.put(BoxNames.workouts, list);
 
     state = list;
   }
@@ -156,6 +160,7 @@ class WorkoutsNotifier extends Notifier<List<Workout>> {
           hasNotes: newExercise.hasNotes,
           notes: newExercise.notes,
           sets: newExercise.sets,
+          trackerID: newExercise.trackerID,
         );
 
         // Replace the old exercise with the updated one
@@ -166,7 +171,7 @@ class WorkoutsNotifier extends Notifier<List<Workout>> {
 
       tempList[workoutIndex] = updatedWorkout;
 
-      Constants.workoutBox.put('workouts', tempList);
+      Constants.workoutBox.put(BoxNames.workouts, tempList);
       state = tempList;
     }
   }
@@ -197,7 +202,7 @@ class WorkoutsNotifier extends Notifier<List<Workout>> {
       ref.read(currentWorkoutProvider.notifier).setWorkout(updatedWorkout);
 
       // Update the box and state
-      Constants.workoutBox.put('workouts', tempList);
+      Constants.workoutBox.put(BoxNames.workouts, tempList);
       state = tempList;
     }
   }
@@ -217,7 +222,7 @@ class WorkoutsNotifier extends Notifier<List<Workout>> {
     );
 
     // Find the index of the old workout
-    int index = tempList.indexOf(workout);
+    int index = tempList.indexWhere((w) => w.id == workout.id);
 
     // Replace the old workout at the index
     tempList[index] = newWorkout;
@@ -226,7 +231,7 @@ class WorkoutsNotifier extends Notifier<List<Workout>> {
     ref.read(currentWorkoutProvider.notifier).setWorkout(newWorkout);
 
     // Update the box and state
-    Constants.workoutBox.put('workouts', tempList);
+    Constants.workoutBox.put(BoxNames.workouts, tempList);
     state = tempList;
   }
 
@@ -243,7 +248,7 @@ class WorkoutsNotifier extends Notifier<List<Workout>> {
       tempList.removeAt(index);
 
       // Update the box and state
-      Constants.workoutBox.put('workouts', tempList);
+      Constants.workoutBox.put(BoxNames.workouts, tempList);
       state = tempList;
     }
   }

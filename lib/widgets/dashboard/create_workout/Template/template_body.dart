@@ -8,8 +8,7 @@ import 'package:workout_journal_v2/models/workout/workout.dart';
 import 'package:workout_journal_v2/providers/workout/workout_provider.dart';
 import 'package:workout_journal_v2/services/navigation_router.dart';
 import 'package:workout_journal_v2/theme/colors.dart';
-import 'package:workout_journal_v2/theme/text_styles.dart';
-import 'package:workout_journal_v2/widgets/custom/default_button.dart';
+import 'package:workout_journal_v2/widgets/custom/buttons/default_button.dart';
 import 'package:workout_journal_v2/widgets/custom/no_items_found.dart';
 import 'package:workout_journal_v2/widgets/dashboard/create_workout/Template/template_item.dart';
 
@@ -78,6 +77,7 @@ class _TemplateBodyState extends ConsumerState<TemplateBody> {
                 key: ValueKey(templates[index]),
                 endActionPane: ActionPane(
                   motion: const BehindMotion(),
+                  extentRatio: 2 / 8,
                   children: [
                     Expanded(
                       child: Padding(
@@ -87,6 +87,13 @@ class _TemplateBodyState extends ConsumerState<TemplateBody> {
                             ref
                                 .read(workoutsProvider.notifier)
                                 .removeWorkout(templates[index]);
+
+                            Methods.showToastMessage(
+                              context,
+                              AppColors.redAccent,
+                              Icons.check_rounded,
+                              'Template deleted successfully',
+                            );
                           },
                           child: Container(
                             padding: const EdgeInsets.all(8),
@@ -98,11 +105,10 @@ class _TemplateBodyState extends ConsumerState<TemplateBody> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Icon(
-                                  Icons.delete,
+                                  Icons.delete_rounded,
                                   size: 25,
                                   color: Colors.white,
                                 ),
-                                TextHeeboReg(text: 'Delete', size: 12),
                               ],
                             ),
                           ),
@@ -130,21 +136,18 @@ class _TemplateBodyState extends ConsumerState<TemplateBody> {
                       title: 'Create',
                       onPressed: () {
                         final Workout workoutCopy =
-                            templates[bools.indexOf(true)].copyWith();
-
-                        final Workout workout = Workout(
+                            templates[bools.indexOf(true)].copyWith(
                           id: const Uuid().v4(),
-                          title: workoutCopy.title,
                           date: DateTime.now(),
-                          img: workoutCopy.img,
-                          exercises: workoutCopy.exercises,
                           isTemplate: false,
                         );
 
-                        ref.read(workoutsProvider.notifier).addItem(workout);
+                        ref
+                            .read(workoutsProvider.notifier)
+                            .addItem(workoutCopy);
                         ref
                             .read(currentWorkoutProvider.notifier)
-                            .setWorkout(workout);
+                            .setWorkout(workoutCopy);
 
                         Methods.showToastMessage(
                           context,

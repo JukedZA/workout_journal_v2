@@ -8,7 +8,7 @@ import 'package:share/share.dart';
 import 'package:workout_journal_v2/data/global_data.dart';
 import 'package:workout_journal_v2/theme/colors.dart';
 import 'package:workout_journal_v2/theme/text_styles.dart';
-import 'package:workout_journal_v2/widgets/custom/default_button.dart';
+import 'package:workout_journal_v2/widgets/custom/buttons/default_button.dart';
 
 class CalorieResultsBody extends StatefulWidget {
   final double calories;
