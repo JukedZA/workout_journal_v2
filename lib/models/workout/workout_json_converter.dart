@@ -64,6 +64,8 @@ class WorkoutJsonConverter {
         img: json['img'] ?? 'assets/images/workout-journal.png',
         exercises: exercises,
         isTemplate: true,
+        startTime: json['start_time'],
+        endTime: json['end_time'],
       );
     } else {
       // User canceled file picking

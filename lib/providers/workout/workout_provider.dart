@@ -44,9 +44,6 @@ class CurrentWorkoutNotifier extends Notifier<Workout?> {
     if (state == null) return;
 
     if (exercise.sets.isNotEmpty) {
-      print(exercise.id);
-      print(setItem.id);
-
       final int index =
           exercise.sets.indexWhere((item) => item.id == setItem.id);
 
@@ -86,13 +83,10 @@ class WorkoutsNotifier extends Notifier<List<Workout>> {
 
   void reorderExercises(Workout workout, List<Exercise> newExercises) {
     if (state.isNotEmpty) {
-      final Workout newWorkout = Workout(
-        id: workout.id,
-        title: workout.title,
-        date: workout.date,
-        img: workout.img,
+      final Workout newWorkout = workout.copyWith(
         exercises: newExercises,
-        isTemplate: workout.isTemplate,
+        endTime: workout.endTime,
+        startTime: workout.startTime,
       );
 
       final int index = state.indexWhere((w) => w.id == workout.id);
@@ -132,6 +126,29 @@ class WorkoutsNotifier extends Notifier<List<Workout>> {
     state = list;
   }
 
+  void updateTime(DateTime? startTime, DateTime? endTime) {
+    final List<Workout> tempList = List.from(state);
+    final Workout? workout = ref.read(currentWorkoutProvider);
+
+    if (tempList.isEmpty || workout == null) return;
+
+    int workoutIndex = tempList.indexWhere((w) => w.id == workout.id);
+
+    if (workoutIndex != -1) {
+      Workout updatedWorkout = workout.copyWith(
+        startTime: startTime,
+        endTime: endTime,
+      );
+
+      ref.read(currentWorkoutProvider.notifier).setWorkout(updatedWorkout);
+
+      tempList[workoutIndex] = updatedWorkout;
+
+      Constants.workoutBox.put(BoxNames.workouts, tempList);
+      state = tempList;
+    }
+  }
+
   void replaceExercise(Exercise newExercise) {
     final List<Workout> tempList = List.from(state);
     final Workout? workout = ref.read(currentWorkoutProvider);
@@ -147,8 +164,9 @@ class WorkoutsNotifier extends Notifier<List<Workout>> {
     if (workoutIndex != -1) {
       // Create a copy of the workout
       Workout updatedWorkout = workout.copyWith(
-        exercises:
-            List.from(workout.exercises), // Create a copy of the exercises list
+        exercises: List.from(workout.exercises),
+        startTime: workout.startTime,
+        endTime: workout.endTime,
       );
 
       if (exerciseIndex != -1) {
@@ -186,13 +204,10 @@ class WorkoutsNotifier extends Notifier<List<Workout>> {
 
     if (index != -1) {
       // Create a copy of the workout with the exercise removed
-      final Workout updatedWorkout = Workout(
-        id: workout.id,
-        title: workout.title,
-        date: workout.date,
-        img: workout.img,
+      final Workout updatedWorkout = workout.copyWith(
         exercises: List.from(workout.exercises)..remove(exercise),
-        isTemplate: workout.isTemplate,
+        startTime: workout.startTime,
+        endTime: workout.endTime,
       );
 
       // Replace the old workout with the updated one
@@ -212,13 +227,10 @@ class WorkoutsNotifier extends Notifier<List<Workout>> {
         List.from(state); // Create a new list from the current state
 
     // Create a copy of the workout with the new exercises
-    final Workout newWorkout = Workout(
-      id: workout.id,
-      title: workout.title,
-      date: workout.date,
-      img: workout.img,
+    final Workout newWorkout = workout.copyWith(
       exercises: [...workout.exercises, exercise],
-      isTemplate: workout.isTemplate,
+      startTime: workout.startTime,
+      endTime: workout.endTime,
     );
 
     // Find the index of the old workout

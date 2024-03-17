@@ -21,7 +21,12 @@ class ExerciseList extends ConsumerWidget {
 
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.all(25.0),
+        padding: const EdgeInsets.only(
+          top: 16,
+          bottom: 25.0,
+          left: 25.0,
+          right: 25.0,
+        ),
         child: ReorderableListView.builder(
           shrinkWrap: true,
           buildDefaultDragHandles: true,

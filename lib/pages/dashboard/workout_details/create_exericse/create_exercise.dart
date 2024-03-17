@@ -234,6 +234,8 @@ class _CreateExerciseState extends ConsumerState<CreateExercise> {
                         _newTrackerName = '';
 
                         ref.read(trackersProvider.notifier).addTracker(tracker);
+
+                        _selectedTracker = tracker.id;
                       },
                       icon: const Icon(
                         Icons.save_rounded,

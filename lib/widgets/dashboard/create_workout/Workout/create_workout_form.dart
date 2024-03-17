@@ -46,6 +46,8 @@ class _CreateWorkoutFormState extends ConsumerState<CreateWorkoutForm> {
         date: DateTime.now(),
         exercises: [],
         isTemplate: false,
+        startTime: null,
+        endTime: null,
       );
 
       ref.read(workoutsProvider.notifier).addItem(workout);

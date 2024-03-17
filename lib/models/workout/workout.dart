@@ -19,6 +19,10 @@ class Workout {
   final List<Exercise> exercises;
   @HiveField(5)
   final bool isTemplate;
+  @HiveField(6)
+  final DateTime? startTime;
+  @HiveField(7)
+  final DateTime? endTime;
 
   const Workout({
     required this.id,
@@ -27,6 +31,8 @@ class Workout {
     this.img = 'assets/images/workout-journal.png',
     required this.exercises,
     this.isTemplate = false,
+    required this.startTime,
+    required this.endTime,
   });
 
   Workout copyWith({
@@ -36,6 +42,8 @@ class Workout {
     String? img,
     List<Exercise>? exercises,
     bool? isTemplate,
+    DateTime? startTime,
+    DateTime? endTime,
   }) {
     List<Exercise> newExercises = [];
 
@@ -56,6 +64,8 @@ class Workout {
       img: img ?? this.img,
       exercises: newExercises,
       isTemplate: isTemplate ?? this.isTemplate,
+      startTime: startTime,
+      endTime: endTime,
     );
   }
 

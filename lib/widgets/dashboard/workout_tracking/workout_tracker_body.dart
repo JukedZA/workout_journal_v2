@@ -101,6 +101,57 @@ class _TrackerBodyState extends ConsumerState<TrackerBody> {
               onChanged: (value) {},
             ),
           ),
+          const SizedBox(height: 16),
+          SizedBox(
+            height: 40,
+            child: ListView.builder(
+              shrinkWrap: true,
+              padding: const EdgeInsets.only(left: 0),
+              scrollDirection: Axis.horizontal,
+              itemCount: _selectedTrackers.length,
+              itemBuilder: (context, index) => InkWell(
+                splashColor: Colors.transparent,
+                splashFactory: NoSplash.splashFactory,
+                onTap: () {
+                  _selectedTrackers.removeWhere(
+                    (t) => t.id == _selectedTrackers[index].id,
+                  );
+
+                  ref
+                      .read(currentTrackersProvider.notifier)
+                      .setState(_selectedTrackers);
+
+                  setState(() {});
+                },
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+                  margin: const EdgeInsets.symmetric(horizontal: 8),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(32),
+                    color: AppColors.redAccent,
+                  ),
+                  child: Center(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        TextHeeboReg(
+                          text: _selectedTrackers[index].title,
+                          size: 12,
+                        ),
+                        const SizedBox(width: 8),
+                        Icon(
+                          Icons.close_rounded,
+                          color: AppColors.white.withOpacity(0.6),
+                          size: 16,
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
           if (_selectedTrackers.isEmpty)
             const Expanded(
               child: Center(

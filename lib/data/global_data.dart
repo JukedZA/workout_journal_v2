@@ -48,6 +48,9 @@ class Methods {
     decimalDigits: 0,
   );
 
+  static final DateFormat dateFormatter = DateFormat('h:mm a');
+  static final DateFormat timeFormatter = DateFormat('HH:mm:ss');
+
   static final compactNumberFormatter = NumberFormat.compact();
 
   static String truncateDecimals(double number) {
